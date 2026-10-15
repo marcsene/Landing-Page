@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galería Exclusiva</title>
+    
+    <!-- SDK OFICIAL DE PAYPAL -->
+    <script src="https://www.paypal.com/sdk/js?client-id=BAACYyD5Un0D7mv1tBIm4msrzsCOSkTNEZApPGXrbB-vEWbxDbMbMBNePVRFuz3uChm44PYoKoUxC02aPo"></script>
+
+    <style>
+        :root {
+            --bg: #f5444427;
+            --surface: #141418;
+            --primary: #f43f5e;
+            --primary-hover: #e11d48;
+            --text: #0b0b0f;
+            --text-muted: #a1a1aa;
+            --border: #27272a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+        }
+
+        .app-container {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .step {
+            display: none;
+            width: 100%;
+            text-align: center;
+        }
+
+        .step.active {
+            display: flex !important;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.35s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* PORTADA CON FOTO ENTERA */
+        .hero-full-container {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .hero-banner-full {
+            width: 100%;
+            max-width: 500px;
+            max-height: 60vh;
+            object-fit: contain;
+            border-radius: 16px;
+            margin-bottom: 20px;
+        }
+
+        .hero-text-clean {
+            font-size: 1.05rem;
+            color: #0202ef;
+            line-height: 1.6;
+            margin-bottom: 10px;
+            font-style: italic;
+            font-weight: 300;
+            padding: 0 16px;
+            max-width: 500px;
+        }
+
+        /* TARJETAS PASOS 2 Y 3 */
+        .card-box {
+            width: 90%;
+            max-width: 440px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 32px 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .text-muted {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        select {
+            width: 100%;
+            padding: 14px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            border-radius: 12px;
+            font-size: 1rem;
+            outline: none;
+            max-height: 200px;
+        }
+
+        .price-display {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin: 20px 0;
+        }
+
+        #paypal-button-container {
+            width: 100%;
+            margin-top: 15px;
+            min-height: 50px;
+        }
+
+        .btn {
+            width: 100%;
+            max-width: 400px;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 10px;
+        }
+
+        .btn.primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 20px rgba(244, 63, 94, 0.4);
+        }
+
+        .btn.primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn.paypal-fallback {
+            background: #0070ba;
+            color: white;
+        }
+
+        .btn.social {
+            color: white;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn.social.whatsapp { background: #25d366; }
+        .btn.social.facebook { background: #1877f2; }
+
+        .mt-4 { margin-top: 20px; }
+
+        /* GALERÍA */
+        .gallery-container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 24px 16px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .gallery-card img {
+            width: 100%;
+            height: 360px;
+            object-fit: cover;
+            border-radius: 16px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <main class="app-container">
+
+        <!-- PASO 1: PORTADA PRINCIPAL -->
+        <section id="step-1" class="step active">
+            <div class="hero-full-container">
+                <img src="imagenes/portada.jpg" alt="Portada" class="hero-banner-full">                
+                <p class="hero-text-clean" id="txt-hero-msg">
+                    ✨ Al dar siguiente descubrirás la colección de fotos de las mujeres más hermosas del mundo. Una selección única, elegante y fascinante que no te querrás perder. ¡Haz clic para continuar!
+                </p>
+                <button class="btn primary" onclick="app.nextStep()">Siguiente</button>
+            </div>
+        </section>
+
+        <!-- PASO 2: MURO DE PAGO E INTERNACIONALIZACIÓN GLOBAL -->
+        <section id="step-2" class="step">
+            <div class="card-box">
+                <h2 id="txt-pay-title">Acceso Restringido</h2>
+                <p id="txt-pay-msg" class="text-muted">Si quieres seguir viendo la página tienes que pagar 1.000 CLP (o su equivalente en tu moneda local).</p>
+                
+                <div class="form-group">
+                    <label for="country-select" id="txt-label-country">Selecciona tu país / Región:</label>
+                    <select id="country-select" onchange="app.onCountryChange()">
+                        <option value="CL" data-currency="CLP" data-lang="es">Chile (CLP)</option>
+                        <option value="AR" data-currency="ARS" data-lang="es">Argentina (ARS)</option>
+                        <option value="BO" data-currency="BOB" data-lang="es">Bolivia (BOB)</option>
+                        <option value="BR" data-currency="BRL" data-lang="pt">Brasil (BRL)</option>
+                        <option value="CO" data-currency="COP" data-lang="es">Colombia (COP)</option>
+                        <option value="CR" data-currency="CRC" data-lang="es">Costa Rica (CRC)</option>
+                        <option value="CU" data-currency="CUP" data-lang="es">Cuba (CUP)</option>
+                        <option value="DO" data-currency="DOP" data-lang="es">República Dominicana (DOP)</option>
+                        <option value="EC" data-currency="USD" data-lang="es">Ecuador (USD)</option>
+                        <option value="SV" data-currency="USD" data-lang="es">El Salvador (USD)</option>
+                        <option value="GT" data-currency="GTQ" data-lang="es">Guatemala (GTQ)</option>
+                        <option value="HN" data-currency="HNL" data-lang="es">Honduras (HNL)</option>
+                        <option value="MX" data-currency="MXN" data-lang="es">México (MXN)</option>
+                        <option value="NI" data-currency="NIO" data-lang="es">Nicaragua (NIO)</option>
+                        <option value="PA" data-currency="PAB" data-lang="es">Panamá (PAB)</option>
+                        <option value="PY" data-currency="PYG" data-lang="es">Paraguay (PYG)</option>
+                        <option value="PE" data-currency="PEN" data-lang="es">Perú (PEN)</option>
+                        <option value="PR" data-currency="USD" data-lang="es">Puerto Rico (USD)</option>
+                        <option value="UY" data-currency="UYU" data-lang="es">Uruguay (UYU)</option>
+                        <option value="VE" data-currency="VES" data-lang="es">Venezuela (VES)</option>
+                        <option value="HT" data-currency="HTG" data-lang="fr">Haití (HTG)</option>
+                        <option value="US" data-currency="USD" data-lang="en">Estados Unidos (USD)</option>
+                        <option value="CA" data-currency="CAD" data-lang="en">Canadá (CAD)</option>
+                        <option value="JM" data-currency="JMD" data-lang="en">Jamaica (JMD)</option>
+                        <option value="ES" data-currency="EUR" data-lang="es">España (EUR)</option>
+                        <option value="FR" data-currency="EUR" data-lang="fr">Francia (EUR)</option>
+                        <option value="DE" data-currency="EUR" data-lang="en">Alemania (EUR)</option>
+                        <option value="IT" data-currency="EUR" data-lang="es">Italia (EUR)</option>
+                        <option value="GB" data-currency="GBP" data-lang="en">Reino Unido (GBP)</option>
+                        <option value="CH" data-currency="CHF" data-lang="en">Suiza (CHF)</option>
+                        <option value="SE" data-currency="SEK" data-lang="en">Suecia (SEK)</option>
+                        <option value="NO" data-currency="NOK" data-lang="en">Noruega (NOK)</option>
+                        <option value="JP" data-currency="JPY" data-lang="en">Japón (JPY)</option>
+                        <option value="CN" data-currency="CNY" data-lang="en">China (CNY)</option>
+                        <option value="AU" data-currency="AUD" data-lang="en">Australia (AUD)</option>
+                        <option value="NZ" data-currency="NZD" data-lang="en">Nueva Zelanda (NZD)</option>
+                        <option value="IN" data-currency="INR" data-lang="en">India (INR)</option>
+                        <option value="OTHER" data-currency="USD" data-lang="en">Otro País / Resto del Mundo (USD)</option>
+                    </select>
+                </div>
+
+                <div class="price-display" id="price-output">Calculando...</div>
+
+                <!-- CONTENEDOR DE BOTONES PAYPAL OFICIALES -->
+                <div id="paypal-button-container"></div>
+
+                <!-- BOTÓN DE RESPALDO MANUAL (Garantiza que siempre puedas avanzar) -->
+                <button class="btn paypal-fallback" onclick="app.simulatePayment()">Pagar con PayPal / Tarjeta (Directo)</button>
+            </div>
+        </section>
+
+        <!-- PASO 3: INTERACCIÓN SOCIAL -->
+        <section id="step-3" class="step">
+            <div class="card-box">
+                <h2 id="txt-share-title">¡Pago Confirmado! 🎉</h2>
+                <p id="txt-share-msg" class="text-muted">Después de confirmar el pago, comparte y dale like para continuar.</p>
+                
+                <button class="btn social whatsapp" onclick="app.share('wa')">Compartir en WhatsApp</button>
+                <button class="btn social facebook" onclick="app.share('fb')">Compartir en Facebook</button>
+                
+                <button class="btn primary mt-4" onclick="app.nextStep()">Siguiente a la Galería</button>
+            </div>
+        </section>
+
+        <!-- PASO 4: CATÁLOGO DE FOTOS -->
+        <section id="step-4" class="step">
+            <div class="gallery-container">
+                <h2 id="txt-gallery-title">Galería Exclusiva</h2>
+                <p id="txt-gallery-sub" class="text-muted">Disfruta de la colección de fotos de las mujeres más hermosas.</p>
+                
+                <div class="gallery-grid">
+    <div class="gallery-card"><img src="imagenes/foto1.jpg" alt="Vestido dorado de fiesta"></div>
+    <div class="gallery-card"><img src="imagenes/foto2.jpg" alt="Vestido negro elegante"></div>
+    <div class="gallery-card"><img src="imagenes/foto3.jpg" alt="Vestido corto de lentejuelas"></div>
+    <div class="gallery-card"><img src="imagenes/foto4.jpg" alt="Vestido rojo de noche"></div>
+    <div class="gallery-card"><img src="imagenes/foto5.jpg" alt="Vestido plateado brillante"></div>
+    <div class="gallery-card"><img src="imagenes/foto6.jpg" alt="Vestido dorado ajustado"></div>
+    <div class="gallery-card"><img src="imagenes/foto7.jpg" alt="Vestido negro con brillo"></div>
+    <div class="gallery-card"><img src="imagenes/foto8.jpg" alt="Vestido rosa elegante"></div>
+    <div class="gallery-card"><img src="imagenes/foto9.jpg" alt="Vestido azul de fiesta"></div>
+    <div class="gallery-card"><img src="imagenes/foto10.jpg" alt="Vestido champagne con lentejuelas"></div>
+    <div class="gallery-card"><img src="imagenes/foto11.jpg" alt="Vestido verde esmeralda"></div>
+    <div class="gallery-card"><img src="imagenes/foto12.jpg" alt="Vestido blanco de noche"></div>
+    <div class="gallery-card"><img src="imagenes/foto13.jpg" alt="Vestido morado brillante"></div>
+    <div class="gallery-card"><img src="imagenes/foto14.jpg" alt="Vestido corto con escote elegante"></div>
+    <div class="gallery-card"><img src="imagenes/foto15.jpg" alt="Vestido rojo con lentejuelas"></div>
+    <div class="gallery-card"><img src="imagenes/foto16.jpg" alt="Vestido negro de cóctel"></div>
+    <div class="gallery-card"><img src="imagenes/foto17.jpg" alt="Vestido dorado de noche"></div>
+    <div class="gallery-card"><img src="imagenes/foto18.jpg" alt="Vestido plateado de fiesta"></div>
+    <div class="gallery-card"><img src="imagenes/foto19.jpg" alt="Vestido elegante con brillo"></div>
+    <div class="gallery-card"><img src="imagenes/foto20.jpg" alt="Vestido de fiesta moderno"></div>
+    <div class="gallery-card"><img src="imagenes/foto21.jpg" alt="Vestido dorado de fiesta"></div>
+    <div class="gallery-card"><img src="imagenes/foto22.jpg" alt="Vestido negro elegante"></div>
+    <div class="gallery-card"><img src="imagenes/foto23.jpg" alt="Vestido corto de lentejuelas"></div>
+    <div class="gallery-card"><img src="imagenes/foto24.jpg" alt="Vestido rojo de noche"></div>
+    <div class="gallery-card"><img src="imagenes/foto25.jpg" alt="Vestido plateado brillante"></div>
+    <div class="gallery-card"><img src="imagenes/foto26.jpg" alt="Vestido dorado ajustado"></div>
+    <div class="gallery-card"><img src="imagenes/foto27.jpg" alt="Vestido negro con brillo"></div>
+    <div class="gallery-card"><img src="imagenes/foto28.jpg" alt="Vestido rosa elegante"></div>
+    <div class="gallery-card"><img src="imagenes/foto29.jpg" alt="Vestido azul de fiesta"></div>
+    <div class="gallery-card"><img src="imagenes/foto30.jpg" alt="Vestido champagne con lentejuelas"></div>
+    <div class="gallery-card"><img src="imagenes/foto31.jpg" alt="Vestido verde esmeralda"></div>
+    <div class="gallery-card"><img src="imagenes/foto32.jpg" alt="Vestido blanco de noche"></div>
+    <div class="gallery-card"><img src="imagenes/foto33.jpg" alt="Vestido morado brillante"></div>
+    <div class="gallery-card"><img src="imagenes/foto34.jpg" alt="Vestido corto con escote elegante"></div>
+    <div class="gallery-card"><img src="imagenes/foto35.jpg" alt="Vestido rojo con lentejuelas"></div>
+    <div class="gallery-card"><img src="imagenes/foto36.jpg" alt="Vestido negro de cóctel"></div>
+    <div class="gallery-card"><img src="imagenes/foto37.jpg" alt="Vestido dorado de noche"></div>
+    <div class="gallery-card"><img src="imagenes/foto38.jpg" alt="Vestido plateado de fiesta"></div>
+    <div class="gallery-card"><img src="imagenes/foto39.jpg" alt="Vestido elegante con brillo"></div>
+    <div class="gallery-card"><img src="imagenes/foto40.jpg" alt="Vestido de fiesta moderno"></div>
+</div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        const app = {
+            currentStep: 1,
+            basePriceCLP: 1000,
+            exchangeRates: {},
+            currentAmountUSD: "1.05",
+            paypalRendered: false,
+
+            translations: {
+                es: {
+                    heroMsg: "✨ Al dar siguiente descubrirás la colección de fotos de las mujeres más hermosas del mundo. Una selección única, elegante y fascinante que no te querrás perder. ¡Haz clic para continuar!",
+                    next: "Siguiente",
+                    payTitle: "Acceso Restringido",
+                    payMsg: "Si quieres seguir viendo la página tienes que pagar 1.000 CLP (o su equivalente en tu moneda local).",
+                    labelCountry: "Selecciona tu país / Región:",
+                    shareTitle: "¡Pago Confirmado! 🎉",
+                    shareMsg: "Después de confirmar el pago, comparte y dale like para continuar.",
+                    galleryBtn: "Siguiente a la Galería",
+                    galleryTitle: "Galería Exclusiva",
+                    gallerySub: "Disfruta de la colección de fotos de las mujeres más hermosas."
+                },
+                en: {
+                    heroMsg: "✨ Click next to discover the collection of the most beautiful women in the world. A unique, elegant, and fascinating selection you won't want to miss. Click to continue!",
+                    next: "Next",
+                    payTitle: "Restricted Access",
+                    payMsg: "If you want to keep viewing the page, you have to pay 1,000 pesos (or equivalent in your currency).",
+                    labelCountry: "Select your country / Region:",
+                    shareTitle: "Payment Confirmed! 🎉",
+                    shareMsg: "After confirming payment, share and like to continue.",
+                    galleryBtn: "Next to Gallery",
+                    galleryTitle: "Exclusive Gallery",
+                    gallerySub: "Enjoy the collection of photos of the world's most beautiful women."
+                },
+                fr: {
+                    heroMsg: "✨ En cliquant sur suivant, vous découvrirez la collection des plus belles femmes du monde. Une sélection unique, élégante et fascinante. Cliquez pour continuer!",
+                    next: "Suivant",
+                    payTitle: "Accès Restreint",
+                    payMsg: "Si vous souhaitez continuer, vous devez payer 1 000 pesos (ou l'équivalent dans votre monnaie locale).",
+                    labelCountry: "Sélectionnez votre pays / Région:",
+                    shareTitle: "Paiement Confirmé! 🎉",
+                    shareMsg: "Après confirmation, partagez et aimez pour continuer.",
+                    galleryBtn: "Suivant vers la galerie",
+                    galleryTitle: "Galerie Exclusive",
+                    gallerySub: "Profitez de la collection de photos des plus belles femmes."
+                },
+                pt: {
+                    heroMsg: "✨ Ao clicar em próximo, você descobrirá a coleção de fotos das mulheres mais bonitas do mundo. Uma seleção única, elegante e fascinante que você não vai querer perder. Clique para continuar!",
+                    next: "Próximo",
+                    payTitle: "Acesso Restrito",
+                    payMsg: "Se você quiser continuar vendo a página, deve pagar 1.000 pesos (ou equivalente na sua moeda).",
+                    labelCountry: "Selecione seu país / Região:",
+                    shareTitle: "Pagamento Confirmado! 🎉",
+                    shareMsg: "Após confirmar o pagamento, compartilhe e curta para continuar.",
+                    galleryBtn: "Próximo à Galeria",
+                    galleryTitle: "Galeria Exclusiva",
+                    gallerySub: "Aproveite a coleção de fotos das mulheres mais bonitas."
+                }
+            },
+
+            async init() {
+                await this.fetchExchangeRates();
+                await this.detectUserLocation();
+            },
+
+            async fetchExchangeRates() {
+                try {
+                    const res = await fetch('https://open.er-api.com/v6/latest/CLP');
+                    const data = await res.json();
+                    if (data && data.rates) this.exchangeRates = data.rates;
+                } catch (e) {
+                    console.log("Error consultando tasas de cambio", e);
+                }
+            },
+
+            async detectUserLocation() {
+                try {
+                    const res = await fetch('https://ipapi.co/json/');
+                    const data = await res.json();
+                    if (data && data.country_code) {
+                        const select = document.getElementById('country-select');
+                        const optionExists = Array.from(select.options).some(opt => opt.value === data.country_code);
+                        if (optionExists) select.value = data.country_code;
+                    }
+                } catch (e) {
+                    console.log("Ubicación por defecto", e);
+                }
+                this.updateUI();
+            },
+
+            onCountryChange() { 
+                this.updateUI(); 
+            },
+
+            updateUI() {
+                const select = document.getElementById('country-select');
+                if (!select || select.selectedIndex === -1) return;
+                const selectedOption = select.options[select.selectedIndex];
+                const currency = selectedOption.getAttribute('data-currency');
+                const lang = selectedOption.getAttribute('data-lang') || 'es';
+
+                if (this.exchangeRates['USD']) {
+                    this.currentAmountUSD = (this.basePriceCLP * this.exchangeRates['USD']).toFixed(2);
+                }
+
+                let priceText = "1.000 CLP";
+                if (currency === 'CLP') {
+                    priceText = "1.000 CLP";
+                } else if (this.exchangeRates[currency]) {
+                    const converted = (this.basePriceCLP * this.exchangeRates[currency]).toFixed(2);
+                    priceText = `${converted} ${currency}`;
+                }
+
+                const priceOutput = document.getElementById('price-output');
+                if (priceOutput) priceOutput.innerText = priceText;
+
+                const t = this.translations[lang] || this.translations['es'];
+                
+                const setText = (id, text) => {
+                    const el = document.getElementById(id);
+                    if (el) el.innerText = text;
+                };
+
+                setText('txt-hero-msg', t.heroMsg);
+                setText('txt-pay-title', t.payTitle);
+                setText('txt-pay-msg', t.payMsg);
+                setText('txt-label-country', t.labelCountry);
+                setText('txt-share-title', t.shareTitle);
+                setText('txt-share-msg', t.shareMsg);
+                setText('txt-gallery-title', t.galleryTitle);
+                setText('txt-gallery-sub', t.gallerySub);
+            },
+
+            nextStep() {
+                if (this.currentStep < 4) {
+                    this.currentStep++;
+                    this.renderStep();
+                }
+            },
+
+            renderStep() {
+                document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+                const target = document.getElementById(`step-${this.currentStep}`);
+                if (target) target.classList.add('active');
+
+                if (this.currentStep === 2 && !this.paypalRendered) {
+                    this.renderPayPalButtons();
+                    this.paypalRendered = true;
+                }
+            },
+
+            renderPayPalButtons() {
+                if (typeof paypal === 'undefined') {
+                    console.warn("El SDK de PayPal no cargó correctamente (posible restricción file://). Utiliza el botón de respaldo.");
+                    return;
+                }
+                
+                const container = document.getElementById('paypal-button-container');
+                if(container) container.innerHTML = '';
+
+                paypal.Buttons({
+                    style: {
+                        layout: 'vertical',
+                        color:  'gold',
+                        shape:  'rect',
+                        label:  'paypal'
+                    },
+                    createOrder: (data, actions) => {
+                        return actions.order.create({
+                            purchase_units: [{
+                                amount: {
+                                    value: app.currentAmountUSD
+                                },
+                                description: "Acceso a Galería Exclusiva"
+                            }]
+                        });
+                    },
+                    onApprove: (data, actions) => {
+                        return actions.order.capture().then((details) => {
+                            app.nextStep();
+                        });
+                    },
+                    onError: (err) => {
+                        console.error("Error en PayPal:", err);
+                    }
+                }).render('#paypal-button-container');
+            },
+
+            simulatePayment() {
+                alert("Simulando proceso de pago exitoso con PayPal / Tarjeta...");
+                this.nextStep();
+            },
+
+            share(platform) {
+                const url = encodeURIComponent(window.location.href);
+                const text = encodeURIComponent("¡Mira esta increíble galería exclusiva!");
+                if (platform === 'wa') window.open(`https://api.whatsapp.com/send?text=${text}%20${url}`, '_blank');
+                else if (platform === 'fb') window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+            }
+        };
+
+        window.onload = () => app.init();
+    </script>
+</body>
+</html>
