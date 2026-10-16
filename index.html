@@ -9,227 +9,359 @@
     <script src="https://www.paypal.com/sdk/js?client-id=BAACYyD5Un0D7mv1tBIm4msrzsCOSkTNEZApPGXrbB-vEWbxDbMbMBNePVRFuz3uChm44PYoKoUxC02aPo"></script>
 
     <style>
-        :root {
-            --bg: #171515fb;
-            --surface: #141418;
-            --primary: #f43f5e;
-            --primary-hover: #e11d48;
-            --text: #c0c0c4;
-            --text-muted: #a1a1aa;
-            --border: #ababb5;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 0;
-        }
-
-        .app-container {
-            width: 100%;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .step {
-            display: none;
-            width: 100%;
-            text-align: center;
-        }
-
-        .step.active {
-            display: flex !important;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            animation: fadeIn 0.35s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        /* PORTADA CON FOTO ENTERA */
-        .hero-full-container {
-            width: 100%;
-            max-width: 600px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .hero-banner-full {
-            width: 100%;
-            max-width: 500px;
-            max-height: 60vh;
-            object-fit: contain;
-            border-radius: 16px;
-            margin-bottom: 20px;
-        }
-
         
-           
-   .hero-text-clean {
-    font-size: 1.8rem !important;
-    line-height: 1.7;
-    font-weight: 500;
-    max-width: 1000px;
-    width: 90%;
-    margin: 30px auto;
-    text-align: center;
-    padding: 0 20px;
-    box-sizing: border-box;
-
+:root {
+    --bg: #171515;
+    --surface: #141418;
+    --primary: #f43f5e;
+    --primary-hover: #e11d48;
+    --text: #f5f2f3;
+    --text-muted: #a1a1aa;
+    --border: #ababb5;
 }
-        @media (max-width: 768px) {
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    min-height: 100%;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Helvetica, Arial, sans-serif;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 0;
+}
+
+.app-container {
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.step {
+    display: none;
+    width: 100%;
+    text-align: center;
+}
+
+.step.active {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.35s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* =========================================
+   PORTADA: FOTOGRAFÍA A PANTALLA COMPLETA
+   ========================================= */
+
+#step-1 {
+    min-height: 100vh;
+    min-height: 100dvh;
+}
+
+#step-1.step.active {
+    display: flex !important;
+}
+
+.hero-full-container {
+    position: relative;
+    isolation: isolate;
+    width: 100%;
+    max-width: none;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: clamp(24px, 5vw, 70px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    overflow: hidden;
+}
+
+/* Imagen de fondo sin bordes ni márgenes */
+.hero-banner-full {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 0;
+    margin: 0;
+}
+
+/* Oscurece el fondo para mejorar la lectura */
+.hero-full-container::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(
+        90deg,
+        rgba(15, 12, 14, 0.82) 0%,
+        rgba(15, 12, 14, 0.55) 48%,
+        rgba(15, 12, 14, 0.20) 100%
+    );
+    pointer-events: none;
+}
+
+/* Texto principal grande y elegante */
+#txt-hero-msg,
+.hero-text-clean {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 1000px);
+    margin: 0;
+    padding: 0 12px;
+    color: #ffffff;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.5rem, 3vw, 2.4rem) !important;
+    font-weight: 500;
+    line-height: 1.55;
+    text-align: center;
+    text-wrap: balance;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.75);
+}
+
+/* Botón de portada */
+.hero-full-container .btn.primary {
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+    width: min(100%, 420px);
+    margin-top: 12px;
+    padding: 18px 24px;
+    border-radius: 16px;
+    font-size: 1.15rem;
+    box-shadow: 0 8px 28px rgba(244, 63, 94, 0.35);
+}
+
+/* =========================================
+   TARJETAS DE PAGO Y PASO SOCIAL
+   ========================================= */
+
+.card-box {
+    width: 90%;
+    max-width: 440px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 32px 24px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+}
+
+h2 {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.text-muted {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 24px;
+    line-height: 1.5;
+}
+
+.form-group {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+}
+
+select {
+    width: 100%;
+    padding: 14px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 12px;
+    font-size: 1rem;
+    outline: none;
+    max-height: 200px;
+}
+
+.price-display {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin: 20px 0;
+}
+
+#paypal-button-container {
+    width: 100%;
+    margin-top: 15px;
+    min-height: 50px;
+}
+
+/* Botones generales */
+.btn {
+    width: 100%;
+    max-width: 400px;
+    padding: 16px;
+    border: none;
+    border-radius: 14px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+    margin-top: 10px;
+}
+
+.btn.primary {
+    background: var(--primary);
+    color: #ffffff;
+    box-shadow: 0 4px 20px rgba(244, 63, 94, 0.3);
+}
+
+.btn.primary:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+.btn.paypal-fallback {
+    background: #bdc0c2;
+    color: #ffffff;
+}
+
+.btn.social {
+    color: #ffffff;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn.social.whatsapp {
+    background: #25d366;
+}
+
+.btn.social.facebook {
+    background: #1877f2;
+}
+
+.mt-4 {
+    margin-top: 20px;
+}
+
+/* =========================================
+   GALERÍA DE FOTOGRAFÍAS
+   ========================================= */
+
+.gallery-container {
+    width: 100%;
+    max-width: 1200px;
+    padding: 24px 16px;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.gallery-card img {
+    width: 100%;
+    height: 360px;
+    object-fit: cover;
+    border-radius: 16px;
+    display: block;
+}
+
+/* =========================================
+   DISEÑO RESPONSIVE PARA CELULARES
+   ========================================= */
+
+@media (max-width: 768px) {
+    .hero-full-container {
+        padding: 28px 18px;
+        gap: 20px;
+    }
+
+    #txt-hero-msg,
     .hero-text-clean {
-        font-size: 1.2rem;
-        line-height: 1.7;
-        padding: 0 18px;
+        font-size: clamp(1.25rem, 5vw, 1.65rem) !important;
+        line-height: 1.55;
+        width: 100%;
+        padding: 0 8px;
+    }
+
+    .hero-full-container .btn.primary {
+        width: 100%;
+        max-width: 360px;
+    }
+
+    .card-box {
+        padding: 28px 20px;
+        border-radius: 20px;
+    }
+
+    .gallery-container {
+        padding: 20px 12px;
+    }
+
+    .gallery-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 11px;
+    }
+
+    .gallery-card img {
+        height: clamp(190px, 62vw, 300px);
+        border-radius: 10px;
     }
 }
 
-        /* TARJETAS PASOS 2 Y 3 */
-        .card-box {
-            width: 90%;
-            max-width: 440px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 32px 24px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-        }
+@media (max-width: 360px) {
+    .gallery-grid {
+        grid-template-columns: 1fr;
+    }
 
-        h2 {
-            font-size: 1.6rem;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
+    .gallery-card img {
+        height: 360px;
+    }
+}
 
-        .text-muted {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            margin-bottom: 24px;
-            line-height: 1.5;
-        }
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
 
-        .form-group {
-            text-align: left;
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-        }
-
-        select {
-            width: 100%;
-            padding: 14px;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            color: var(--text);
-            border-radius: 12px;
-            font-size: 1rem;
-            outline: none;
-            max-height: 200px;
-        }
-
-        .price-display {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--primary);
-            margin: 20px 0;
-        }
-
-        #paypal-button-container {
-            width: 100%;
-            margin-top: 15px;
-            min-height: 50px;
-        }
-
-        .btn {
-            width: 100%;
-            max-width: 400px;
-            padding: 16px;
-            border: none;
-            border-radius: 14px;
-            font-size: 1.05rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            margin-top: 10px;
-        }
-
-        .btn.primary {
-            background: var(--primary);
-            color: white;
-            box-shadow: 0 4px 20px rgba(236, 230, 231, 0.4);
-        }
-
-        .btn.primary:hover {
-            background: var(--primary-hover);
-            transform: translateY(-1px);
-        }
-
-        .btn.paypal-fallback {
-            background: #bdc0c2;
-            color: white;
-        }
-
-        .btn.social {
-            color: white;
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn.social.whatsapp { background: #25d366; }
-        .btn.social.facebook { background: #abb0b8; }
-
-        .mt-4 { margin-top: 20px; }
-
-        /* GALERÍA */
-        .gallery-container {
-            width: 100%;
-            max-width: 1200px;
-            padding: 24px 16px;
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 16px;
-            margin-top: 20px;
-        }
-
-        .gallery-card img {
-            width: 100%;
-            height: 360px;
-            object-fit: cover;
-            border-radius: 16px;
-            display: block;
-        }
     </style>
 </head>
 <body>
@@ -383,7 +515,7 @@
 
             translations: {
                 es: {
-                    heroMsg: "✨ Al dar siguiente descubrirás la colección de fotos de las mujeres más hermosas del mundo. Una selección única, elegante y fascinante que no te querrás perder. ¡Haz clic para continuar!",
+                    heroMsg: "✨ Descubre una colección exclusiva de belleza, elegancia y estilo. Déjate sorprender por fotografías que inspiran y cautivan. ¡Tu próxima colección favorita te espera!",
                     next: "Siguiente",
                     payTitle: "Acceso Restringido",
                     payMsg: "Si quieres seguir viendo la página tienes que pagar 1.000 CLP (o su equivalente en tu moneda local).",
