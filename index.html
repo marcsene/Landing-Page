@@ -14,9 +14,9 @@
             --surface: #141418;
             --primary: #f43f5e;
             --primary-hover: #e11d48;
-            --text: #1111d9;
+            --text: #c0c0c4;
             --text-muted: #a1a1aa;
-            --border: #0707e6;
+            --border: #ababb5;
         }
 
         * {
@@ -83,16 +83,27 @@
             margin-bottom: 20px;
         }
 
-        .hero-text-clean {
-            font-size: 1.05rem;
-            color: #0f0fda;
-            line-height: 1.6;
-            margin-bottom: 24px;
-            font-style: italic;
-            font-weight: 300;
-            padding: 0 16px;
-            max-width: 500px;
-        }
+        
+           
+   .hero-text-clean {
+    font-size: 1.8rem !important;
+    line-height: 1.7;
+    font-weight: 500;
+    max-width: 1000px;
+    width: 90%;
+    margin: 30px auto;
+    text-align: center;
+    padding: 0 20px;
+    box-sizing: border-box;
+
+}
+        @media (max-width: 768px) {
+    .hero-text-clean {
+        font-size: 1.2rem;
+        line-height: 1.7;
+        padding: 0 18px;
+    }
+}
 
         /* TARJETAS PASOS 2 Y 3 */
         .card-box {
@@ -180,7 +191,7 @@
         }
 
         .btn.paypal-fallback {
-            background: #0070ba;
+            background: #bdc0c2;
             color: white;
         }
 
@@ -194,7 +205,7 @@
         }
 
         .btn.social.whatsapp { background: #25d366; }
-        .btn.social.facebook { background: #1877f2; }
+        .btn.social.facebook { background: #abb0b8; }
 
         .mt-4 { margin-top: 20px; }
 
@@ -229,7 +240,9 @@
             <div class="hero-full-container">
                 <img src="imagenes/portada.jpg" alt="Portada" class="hero-banner-full">                
                 <p class="hero-text-clean" id="txt-hero-msg">
-                    ✨ Al dar siguiente descubrirás la colección de fotos de las mujeres más hermosas del mundo. Una selección única, elegante y fascinante que no te querrás perder. ¡Haz clic para continuar!
+                    ✨ Descubre una colección exclusiva de belleza, elegancia y estilo.
+                      Déjate sorprender por una selección de fotografías que inspiran y cautivan.
+                         ¡Tu próxima colección favorita te espera!
                 </p>
                 <button class="btn primary" onclick="app.nextStep()">Siguiente</button>
             </div>
@@ -239,7 +252,7 @@
         <section id="step-2" class="step">
             <div class="card-box">
                 <h2 id="txt-pay-title">Acceso Restringido</h2>
-                <p id="txt-pay-msg" class="text-muted">Si quieres seguir viendo la página tienes que pagar 1.000 CLP (o su equivalente en tu moneda local).</p>
+                <p id="txt-pay-msg" class="text-muted">Si quieres seguir viendo la página tienes que pagar 1.000 CLP , dar click en tarjeta (o su equivalente en tu moneda local).</p>
                 
                 <div class="form-group">
                     <label for="country-select" id="txt-label-country">Selecciona tu país / Región:</label>
