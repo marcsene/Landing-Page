@@ -362,6 +362,28 @@ select {
         transition-duration: 0.01ms !important;
     }
 }
+/* AJUSTE EXCLUSIVO PARA CELULARES (MÓVIL) */
+@media (max-width: 768px) {
+    .hero-full-container {
+        padding: 16px;
+        max-width: 100%;
+    }
+
+    .hero-banner-full {
+        width: 100%;
+        max-width: 100%;
+        max-height: 45vh;
+        object-fit: contain;
+        margin: 0 auto 16px auto;
+        display: block;
+    }
+
+    .hero-text-clean {
+        font-size: 0.95rem;
+        padding: 0 12px;
+        margin-bottom: 20px;
+    }
+}
 
     </style>
 </head>
