@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BENDICION Minimarket y Carniceria - Pedidos Online</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Color Palette setup with Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandRed: '#D32F2F',
+                        brandRedDark: '#9A0007',
+                        brandBlack: '#1A1A1A',
+                        brandGold: '#FFC107'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .product-card {
+            transition: all 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+        .bg-pattern {
+            background-color: #f8f9fa;
+            background-image: radial-gradient(#d32f2f 0.5px, transparent 0.5px), radial-gradient(#1a1a1a 0.5px, #f8f9fa 0.5px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            background-opacity: 0.05;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans min-h-screen flex flex-col">
+
+    <!-- Header / Banner -->
+    <header class="bg-brandBlack text-white shadow-lg sticky top-0 z-40 border-b-4 border-brandRed">
+        <!-- Top Bar Notice -->
+        <div class="bg-brandRed text-white text-xs text-center py-1 font-bold px-2">
+            📍 BENDICION Minimarket y Carniceria | Envíos y Pedidos directo a WhatsApp: +56 9 5950 1124
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center flex-wrap gap-2">
+            <!-- Brand Logo / Title -->
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('catalog')">
+                <div class="bg-brandRed text-white p-2 rounded-lg font-black text-2xl shadow border border-white">
+                    <i class="fa-solid font-bold fa-drumstick-bite"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-black uppercase tracking-wider text-white leading-tight">
+                        BENDICION
+                    </h1>
+                    <p class="text-xs font-semibold text-gray-300 uppercase tracking-widest">
+                        Minimarket y Carniceria
+                    </p>
+                </div>
+            </div>
+
+            <!-- Header Action Buttons -->
+            <div class="flex items-center space-x-3">
+                <!-- Admin Button -->
+                <button onclick="toggleAdminModal()" class="bg-gray-800 hover:bg-gray-700 text-xs md:text-sm text-gray-200 px-3 py-2 rounded-lg border border-gray-600 transition flex items-center gap-1 font-medium">
+                    <i class="fa-solid fa-user-gear text-brandGold"></i>
+                    <span>Panel Admin</span>
+                </button>
+
+                <!-- Cart Counter Button -->
+                <button onclick="openCartModal()" class="bg-brandRed hover:bg-brandRedDark text-white px-4 py-2 rounded-lg shadow font-bold text-sm transition flex items-center gap-2 relative">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span id="cartCount" class="bg-white text-brandRed font-extrabold text-xs px-2 py-0.5 rounded-full">0</span>
+                    <span class="hidden sm:inline">Ver Pedido</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-6">
+
+        <!-- Category Filters -->
+        <div class="flex overflow-x-auto space-x-2 pb-4 mb-6 scrollbar-none" id="categoryFilters">
+            <!-- Dynamic Category Buttons populated by JS -->
+        </div>
+
+        <!-- Out of Stock Info Alert -->
+        <div class="bg-amber-50 border-l-4 border-amber-500 p-3 rounded-r mb-6 text-xs md:text-sm text-amber-800 flex items-center justify-between shadow-sm">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-circle-info text-amber-600 text-base"></i>
+                <span>Los productos marcados en gris como <strong>"Sin Stock / Agotado"</strong> no están disponibles temporalmente.</span>
+            </div>
+            <span class="text-xs bg-amber-200 text-amber-900 px-2 py-0.5 rounded font-bold uppercase">Aviso</span>
+        </div>
+
+        <!-- Products Grid -->
+        <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <!-- Dynamic Product Cards populated by JS -->
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-brandBlack text-gray-400 text-sm border-t-4 border-brandRed mt-12">
+        <div class="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+                <h3 class="text-white font-black text-lg mb-2 uppercase">BENDICION</h3>
+                <p class="text-xs text-gray-300 mb-3">Minimarket y Carniceria con la mejor calidad en carnes, cecinas, abarrotes y productos para tu hogar.</p>
+                <div class="text-xs text-gray-400">
+                    <p><i class="fa-solid fa-location-dot text-brandRed mr-2"></i> Dirección: Carlos Avilés #355, Melipilla</p>
+                    <p><i class="fa-solid fa-phone text-brandRed mr-2"></i> WhatsApp: +56 9 5950 1124</p>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="text-white font-bold text-sm mb-2 uppercase border-b border-gray-700 pb-1">Horario de Atención</h4>
+                <p class="text-xs text-gray-300">Lunes a Sábado: 8:30 AM - 8:30 PM</p>
+                <p class="text-xs text-gray-300">Domingos y Festivos: 9:00 AM - 3:00 PM</p>
+            </div>
+
+            <div>
+                <h4 class="text-white font-bold text-sm mb-2 uppercase border-b border-gray-700 pb-1">Medios de Pago</h4>
+                <div class="flex gap-2 text-xl text-gray-300 mt-2">
+                    <span class="bg-gray-800 px-2 py-1 rounded text-xs border border-gray-700">Efectivo</span>
+                    <span class="bg-gray-800 px-2 py-1 rounded text-xs border border-gray-700">Transferencia</span>
+                    <span class="bg-gray-800 px-2 py-1 rounded text-xs border border-gray-700">Débito / Crédito</span>
+                </div>
+            </div>
+        </div>
+        <div class="bg-black py-3 text-center text-xs text-gray-500 border-t border-gray-800">
+            © 2026 BENDICION Minimarket y Carniceria. Todos los derechos reservados.
+        </div>
+    </footer>
+
+    <!-- CART MODAL -->
+    <div id="cartModal" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full overflow-hidden flex flex-col max-h-[90vh]">
+            <!-- Modal Header -->
+            <div class="bg-brandRed text-white px-5 py-4 flex justify-between items-center">
+                <h3 class="font-bold text-lg flex items-center gap-2">
+                    <i class="fa-solid fa-cart-shopping"></i> Tu Pedido
+                </h3>
+                <button onclick="closeCartModal()" class="text-white hover:text-gray-200 text-xl font-bold">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body (Cart Items) -->
+            <div id="cartItemsContainer" class="p-5 overflow-y-auto flex-grow divide-y divide-gray-200">
+                <!-- Cart items JS -->
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="bg-gray-50 p-5 border-t border-gray-200">
+                <div class="flex justify-between items-center text-lg font-bold text-gray-900 mb-4">
+                    <span>Total Estimado:</span>
+                    <span id="cartTotal" class="text-brandRed text-xl">$0</span>
+                </div>
+
+                <!-- Customer Details Form -->
+                <div class="space-y-3 mb-4">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Tu Nombre:</label>
+                        <input type="text" id="customerName" placeholder="Ej. Juan Pérez" class="w-full text-sm border rounded-lg p-2 focus:ring-2 focus:ring-brandRed outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Dirección / Retiro en Tienda:</label>
+                        <input type="text" id="customerAddress" placeholder="Ej. Retiro en local o Calle Ejemplo #123" class="w-full text-sm border rounded-lg p-2 focus:ring-2 focus:ring-brandRed outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Notas adicionales (opcional):</label>
+                        <textarea id="customerNotes" rows="2" placeholder="Ej. Cortes delgados de chuleta, pan bien caliente, etc." class="w-full text-sm border rounded-lg p-2 focus:ring-2 focus:ring-brandRed outline-none"></textarea>
+                    </div>
+                </div>
+
+                <button onclick="sendWhatsAppOrder()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 text-base shadow-lg transition">
+                    <i class="fa-brands fa-whatsapp text-xl"></i>
+                    <span>Enviar Pedido a WhatsApp</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN LOGIN MODAL -->
+    <div id="adminAuthModal" class="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-xl shadow-2xl max-w-sm w-full p-6 text-center">
+            <div class="w-12 h-12 bg-brandRed text-white rounded-full flex items-center justify-center mx-auto mb-3 text-xl">
+                <i class="fa-solid fa-lock"></i>
+            </div>
+            <h3 class="text-lg font-bold text-gray-800 mb-1">Acceso Administrador</h3>
+            <p class="text-xs text-gray-500 mb-4">Ingresa la clave para administrar precios y stock.</p>
+            
+            <input type="password" id="adminPassword" placeholder="Clave de administrador" class="w-full text-center border rounded-lg p-2 mb-3 text-sm focus:ring-2 focus:ring-brandRed outline-none" onkeyup="if(event.key==='Enter') verifyAdminPass()">
+            <p id="adminAuthError" class="text-red-600 text-xs mb-3 hidden">Clave incorrecta. Intenta nuevamente.</p>
+            <p class="text-xs text-gray-400 mb-4">(Clave por defecto: <code class="bg-gray-100 px-1 font-mono text-gray-700">1234</code>)</p>
+
+            <div class="flex gap-2">
+                <button onclick="closeAdminAuthModal()" class="w-1/2 bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 rounded-lg font-semibold text-sm">Cancelar</button>
+                <button onclick="verifyAdminPass()" class="w-1/2 bg-brandRed hover:bg-brandRedDark text-white py-2 rounded-lg font-semibold text-sm">Entrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN PANEL MODAL -->
+    <div id="adminPanelModal" class="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-xl shadow-2xl max-w-4xl w-full overflow-hidden flex flex-col max-h-[90vh]">
+            <!-- Header -->
+            <div class="bg-brandBlack text-white px-5 py-4 flex justify-between items-center border-b-4 border-brandRed">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-sliders text-brandGold"></i>
+                    <h3 class="font-bold text-lg">Panel Administrador - BENDICION</h3>
+                </div>
+                <button onclick="closeAdminPanelModal()" class="text-white hover:text-gray-300 text-xl font-bold">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Content Area -->
+            <div class="p-6 overflow-y-auto flex-grow bg-gray-50">
+                
+                <!-- Action bar inside admin -->
+                <div class="flex justify-between items-center mb-6">
+                    <h4 class="font-bold text-gray-800 text-md uppercase tracking-wider">Gestión de Inventario y Precios</h4>
+                    <button onclick="openProductEditModal(null)" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs md:text-sm font-bold px-3 py-2 rounded-lg flex items-center gap-1 shadow">
+                        <i class="fa-solid fa-plus"></i> Nuevo Producto
+                    </button>
+                </div>
+
+                <!-- Admin Products Table -->
+                <div class="bg-white rounded-lg shadow overflow-x-auto border border-gray-200">
+                    <table class="w-full text-left border-collapse text-xs md:text-sm">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 font-bold border-b border-gray-200 uppercase text-[11px]">
+                                <th class="p-3">Producto</th>
+                                <th class="p-3">Categoría</th>
+                                <th class="p-3">Precio Kilo / Un.</th>
+                                <th class="p-3">Precio Caja</th>
+                                <th class="p-3 text-center">Estado Stock</th>
+                                <th class="p-3 text-right">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminProductsTable" class="divide-y divide-gray-200">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <!-- Footer -->
+            <div class="bg-white px-6 py-3 border-t border-gray-200 flex justify-between items-center text-xs text-gray-500">
+                <span>Cambios guardados localmente.</span>
+                <button onclick="resetDefaultProducts()" class="text-brandRed hover:underline">Restablecer catálogo por defecto</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRODUCT EDIT / ADD MODAL -->
+    <div id="productEditModal" class="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm z-[60] flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-xl shadow-2xl max-w-md w-full p-6">
+            <h3 id="editModalTitle" class="text-lg font-bold text-gray-900 mb-4 border-b pb-2">Editar Producto</h3>
+            
+            <form id="productForm" onsubmit="saveProductForm(event)" class="space-y-3 text-xs md:text-sm">
+                <input type="hidden" id="editProductId">
+
+                <div>
+                    <label class="block font-bold text-gray-700 mb-1">Nombre del Producto:</label>
+                    <input type="text" id="editProductName" required class="w-full border rounded p-2 focus:ring-2 focus:ring-brandRed outline-none">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold text-gray-700 mb-1">Categoría:</label>
+                        <select id="editProductCategory" class="w-full border rounded p-2 focus:ring-2 focus:ring-brandRed outline-none bg-white">
+                            <option value="carnes">Carnicería</option>
+                            <option value="cecinas">Cecinas</option>
+                            <option value="confites">Confites y Pan</option>
+                            <option value="bebidas">Bebidas y Lácteos</option>
+                            <option value="aseo">Art. de Aseo</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-bold text-gray-700 mb-1">Unidad Principal:</label>
+                        <select id="editProductUnit" class="w-full border rounded p-2 focus:ring-2 focus:ring-brandRed outline-none bg-white">
+                            <option value="Kg">Por Kilo (Kg)</option>
+                            <option value="Unid">Por Unidad</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold text-gray-700 mb-1">Precio x Kilo / Unid ($):</label>
+                        <input type="number" id="editProductPrice" required min="0" class="w-full border rounded p-2 focus:ring-2 focus:ring-brandRed outline-none">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-gray-700 mb-1">Precio x Caja ($) <span class="font-normal text-gray-400">(Opcional)</span>:</label>
+                        <input type="number" id="editProductBoxPrice" min="0" placeholder="Ej: 22000" class="w-full border rounded p-2 focus:ring-2 focus:ring-brandRed outline-none">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-gray-700 mb-1">URL Fotografía del Producto:</label>
+                    <input type="text" id="editProductImage" required placeholder="https://..." class="w-full border rounded p-2 text-xs focus:ring-2 focus:ring-brandRed outline-none">
+                </div>
+
+                <div>
+                    <label class="block font-bold text-gray-700 mb-1">Estado de Stock:</label>
+                    <select id="editProductStock" class="w-full border rounded p-2 focus:ring-2 focus:ring-brandRed outline-none bg-white font-semibold">
+                        <option value="true" class="text-emerald-700">Disponible (Con Stock)</option>
+                        <option value="false" class="text-red-700">Agotado / No Disponible (Sin Stock)</option>
+                    </select>
+                </div>
+
+                <div class="flex justify-end gap-2 pt-4 border-t mt-4">
+                    <button type="button" onclick="closeProductEditModal()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg font-semibold hover:bg-gray-300">Cancelar</button>
+                    <button type="submit" class="px-4 py-2 bg-brandRed text-white rounded-lg font-semibold hover:bg-brandRedDark shadow">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Default initial products list
+        const defaultProducts = [
+            // Carniceria
+            { id: 1, name: "Chuleta de Cerdo Fresca", category: "carnes", price: 4790, boxPrice: 22500, unit: "Kg", inStock: true, image: "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=600&q=80" },
+            { id: 2, name: "Chuleta Centro de Cerdo", category: "carnes", price: 4690, boxPrice: 22000, unit: "Kg", inStock: true, image: "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=600&q=80" },
+            { id: 3, name: "Filete de Cerdo", category: "carnes", price: 3800, boxPrice: 18000, unit: "Kg", inStock: true, image: "https://images.unsplash.com/photo-1603048588665-791ca8aea617?auto=format&fit=crop&w=600&q=80" },
+            { id: 4, name: "Pulpa de Cerdo", category: "carnes", price: 2500, boxPrice: 12000, unit: "Kg", inStock: true, image: "https://images.unsplash.com/photo-1603048588665-791ca8aea617?auto=format&fit=crop&w=600&q=80" },
+            { id: 5, name: "Costillar de Cerdo Crudo", category: "carnes", price: 5990, boxPrice: 28000, unit: "Kg", inStock: true, image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80" },
+            { id: 6, name: "Patita de Cerdo", category: "carnes", price: 2000, boxPrice: 9500, unit: "Kg", inStock: false, image: "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=600&q=80" },
+            { id: 7, name: "Pierna de Pollo Fresca", category: "carnes", price: 2590, boxPrice: 12000, unit: "Kg", inStock: true, image: "https://images.unsplash.com/photo-1587593810167-a84920ea0781?auto=format&fit=crop&w=600&q=80" },
+            { id: 8, name: "Hueso de Vacuno / Cazuela", category: "carnes", price: 2000, boxPrice: 9000, unit: "Kg", inStock: true, image: "https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=600&q=80" },
+
+            // Cecinas
+            { id: 9, name: "Vienesas Seleccionadas x 1kg", category: "cecinas", price: 3200, boxPrice: null, unit: "Unid", inStock: true, image: "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=600&q=80" },
+            { id: 10, name: "Queso Laminado Mantecoso 250g", category: "cecinas", price: 2800, boxPrice: null, unit: "Unid", inStock: true, image: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?auto=format&fit=crop&w=600&q=80" },
+            { id: 11, name: "Jamón Sándwich Ariceta 200g", category: "cecinas", price: 1990, boxPrice: null, unit: "Unid", inStock: true, image: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=600&q=80" },
+
+            // Confites y Pan
+            { id: 12, name: "Pan Marraqueta / Hallulla", category: "confites", price: 1890, boxPrice: null, unit: "Kg", inStock: true, image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&q=80" },
+            { id: 13, name: "Bolsa de Dulces Surtidos", category: "confites", price: 1500, boxPrice: null, unit: "Unid", inStock: false, image: "https://images.unsplash.com/photo-1582058091505-f87a2e55a40f?auto=format&fit=crop&w=600&q=80" },
+
+            // Bebidas y Lacteos
+            { id: 14, name: "Bebida Coca-Cola 2.5L", category: "bebidas", price: 2600, boxPrice: null, unit: "Unid", inStock: true, image: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=600&q=80" },
+            { id: 15, name: "Leche Entera 1L", category: "bebidas", price: 1100, boxPrice: null, unit: "Unid", inStock: true, image: "https://images.unsplash.com/photo-1563636619-e9143da7973b?auto=format&fit=crop&w=600&q=80" },
+
+            // Articulos Aseo
+            { id: 16, name: "Detergente Multiuso 3L", category: "aseo", price: 4990, boxPrice: null, unit: "Unid", inStock: true, image: "https://images.unsplash.com/photo-1585842378054-ee2e52f94ba2?auto=format&fit=crop&w=600&q=80" }
+        ];
+
+        // Categories Map
+        const categories = [
+            { id: "all", name: "Todos los Productos", icon: "fa-border-all" },
+            { id: "carnes", name: "Carnicería", icon: "fa-drumstick-bite" },
+            { id: "cecinas", name: "Cecinas & Quesos", icon: "fa-cheese" },
+            { id: "confites", name: "Pan & Confites", icon: "fa-bread-slice" },
+            { id: "bebidas", name: "Bebidas & Lácteos", icon: "fa-bottle-water" },
+            { id: "aseo", name: "Art. de Aseo", icon: "fa-pump-soap" }
+        ];
+
+        // Application State
+        let products = [];
+        let cart = [];
+        let activeCategory = "all";
+        const whatsappNumber = "+56959501124";
+
+        // Fallback placeholder image handler
+        function handleImgError(img) {
+            img.onerror = null;
+            img.src = 'https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=600&q=80';
+        }
+
+        // Initialize App
+        document.addEventListener("DOMContentLoaded", () => {
+            loadProducts();
+            renderCategories();
+            renderProducts();
+            updateCartCount();
+        });
+
+        // Load Products from LocalStorage or Default
+        function loadProducts() {
+            const saved = localStorage.getItem("bendicion_products_v2");
+            if (saved) {
+                try {
+                    products = JSON.parse(saved);
+                } catch(e) {
+                    products = [...defaultProducts];
+                }
+            } else {
+                products = [...defaultProducts];
+                saveProductsToStorage();
+            }
+        }
+
+        function saveProductsToStorage() {
+            localStorage.setItem("bendicion_products_v2", JSON.stringify(products));
+        }
+
+        function resetDefaultProducts() {
+            if (confirm("¿Estás seguro de restablecer todos los productos y precios por defecto?")) {
+                products = [...defaultProducts];
+                saveProductsToStorage();
+                renderProducts();
+                renderAdminTable();
+                alert("Catálogo restablecido correctamente.");
+            }
+        }
+
+        // Render Category Filter Buttons
+        function renderCategories() {
+            const container = document.getElementById("categoryFilters");
+            container.innerHTML = categories.map(cat => `
+                <button onclick="setCategory('${cat.id}')" 
+                    class="px-4 py-2 rounded-full font-bold text-xs md:text-sm whitespace-nowrap transition flex items-center gap-2 ${
+                        activeCategory === cat.id 
+                        ? 'bg-brandRed text-white shadow-md' 
+                        : 'bg-white text-gray-700 hover:bg-gray-200 border border-gray-200'
+                    }">
+                    <i class="fa-solid ${cat.icon}"></i>
+                    <span>${cat.name}</span>
+                </button>
+            `).join("");
+        }
+
+        function setCategory(catId) {
+            activeCategory = catId;
+            renderCategories();
+            renderProducts();
+        }
+
+        // Render Products Grid
+        function renderProducts() {
+            const grid = document.getElementById("productsGrid");
+            const filtered = activeCategory === "all" 
+                ? products 
+                : products.filter(p => p.category === activeCategory);
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-12 text-gray-500">
+                        <i class="fa-solid fa-box-open text-4xl mb-2 text-gray-300"></i>
+                        <p>No se encontraron productos en esta categoría.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(product => {
+                const isAvailable = product.inStock;
+                
+                return `
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col justify-between product-card relative ${!isAvailable ? 'opacity-70 bg-gray-50' : ''}">
+                        
+                        <!-- Image & Stock Tag -->
+                        <div class="relative h-48 bg-gray-100 overflow-hidden">
+                            <img src="${product.image}" alt="${product.name}" onerror="handleImgError(this)" class="w-full h-full object-cover">
+                            
+                            ${!isAvailable ? `
+                                <div class="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center p-2">
+                                    <span class="bg-brandRed text-white text-xs font-black px-3 py-1.5 rounded-md uppercase tracking-wider shadow border border-white">
+                                        <i class="fa-solid fa-ban mr-1"></i> Agotado / No Disponible
+                                    </span>
+                                </div>
+                            ` : ''}
+
+                            <span class="absolute top-2 left-2 bg-brandBlack bg-opacity-80 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">
+                                ${product.category}
+                            </span>
+                        </div>
+
+                        <!-- Info -->
+                        <div class="p-4 flex-grow flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-bold text-gray-900 text-base leading-snug mb-1">${product.name}</h3>
+                                <div class="text-xs text-gray-500 mb-2 font-medium">Formato: Por ${product.unit === 'Kg' ? 'Kilo (Kg)' : 'Unidad'}</div>
+                            </div>
+
+                            <div class="mt-2 pt-2 border-t border-gray-100">
+                                <div class="flex items-baseline justify-between">
+                                    <span class="text-xs text-gray-500 font-semibold">Precio:</span>
+                                    <span class="text-lg font-black text-brandRed">$${product.price.toLocaleString('es-CL')} <span class="text-xs font-normal text-gray-500">/${product.unit}</span></span>
+                                </div>
+
+                                ${product.boxPrice ? `
+                                    <div class="flex items-baseline justify-between mt-0.5 text-xs text-amber-800 bg-amber-50 px-2 py-1 rounded">
+                                        <span class="font-bold">Opción Caja:</span>
+                                        <span class="font-bold">$${product.boxPrice.toLocaleString('es-CL')}</span>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+
+                        <!-- Action Button -->
+                        <div class="p-4 pt-0">
+                            ${isAvailable ? `
+                                <div class="grid ${product.boxPrice ? 'grid-cols-2' : 'grid-cols-1'} gap-2">
+                                    <button onclick="addToCart(${product.id}, 'kilo')" class="w-full bg-brandRed hover:bg-brandRedDark text-white py-2 px-2 rounded-lg font-bold text-xs shadow flex items-center justify-center gap-1 transition">
+                                        <i class="fa-solid fa-plus"></i> +1 ${product.unit}
+                                    </button>
+                                    ${product.boxPrice ? `
+                                        <button onclick="addToCart(${product.id}, 'caja')" class="w-full bg-amber-600 hover:bg-amber-700 text-white py-2 px-2 rounded-lg font-bold text-xs shadow flex items-center justify-center gap-1 transition">
+                                            <i class="fa-solid fa-box"></i> +1 Caja
+                                        </button>
+                                    ` : ''}
+                                </div>
+                            ` : `
+                                <button disabled class="w-full bg-gray-300 text-gray-500 py-2 rounded-lg font-bold text-xs cursor-not-allowed uppercase">
+                                    No Disponible
+                                </button>
+                            `}
+                        </div>
+
+                    </div>
+                `;
+            }).join("");
+        }
+
+        // Cart Logic
+        function addToCart(productId, type = 'kilo') {
+            const product = products.find(p => p.id === productId);
+            if (!product || !product.inStock) return;
+
+            const cartKey = `${productId}_${type}`;
+            const existingIndex = cart.findIndex(item => item.cartKey === cartKey);
+
+            const isBox = type === 'caja';
+            const price = isBox ? product.boxPrice : product.price;
+            const label = isBox ? `${product.name} (Caja)` : `${product.name} (${product.unit})`;
+
+            if (existingIndex > -1) {
+                cart[existingIndex].quantity += 1;
+            } else {
+                cart.push({
+                    cartKey: cartKey,
+                    id: product.id,
+                    name: label,
+                    price: price,
+                    quantity: 1,
+                    type: type
+                });
+            }
+
+            updateCartCount();
+            
+            // Temporary feedback Toast
+            const btn = event.currentTarget;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = `<i class="fa-solid fa-check"></i> ¡Agregado!`;
+            btn.classList.add('bg-emerald-600');
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.classList.remove('bg-emerald-600');
+            }, 1000);
+        }
+
+        function updateCartCount() {
+            const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById("cartCount").innerText = totalCount;
+        }
+
+        function openCartModal() {
+            renderCartItems();
+            document.getElementById("cartModal").classList.remove("hidden");
+        }
+
+        function closeCartModal() {
+            document.getElementById("cartModal").classList.add("hidden");
+        }
+
+        function renderCartItems() {
+            const container = document.getElementById("cartItemsContainer");
+            
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8 text-gray-400">
+                        <i class="fa-solid fa-basket-shopping text-4xl mb-2"></i>
+                        <p class="text-sm">Tu carrito de compras está vacío.</p>
+                    </div>
+                `;
+                document.getElementById("cartTotal").innerText = "$0";
+                return;
+            }
+
+            let total = 0;
+            container.innerHTML = cart.map((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+
+                return `
+                    <div class="py-3 flex justify-between items-center gap-2">
+                        <div class="flex-grow">
+                            <h4 class="font-bold text-gray-800 text-sm">${item.name}</h4>
+                            <div class="text-xs text-gray-500">$${item.price.toLocaleString('es-CL')} c/u</div>
+                        </div>
+
+                        <!-- Quantity Controls -->
+                        <div class="flex items-center space-x-2 border rounded-lg p-1 bg-gray-50">
+                            <button onclick="changeQty(${index}, -1)" class="w-6 h-6 rounded bg-gray-200 hover:bg-gray-300 font-bold text-xs flex items-center justify-center">-</button>
+                            <span class="text-xs font-bold w-6 text-center">${item.quantity}</span>
+                            <button onclick="changeQty(${index}, 1)" class="w-6 h-6 rounded bg-gray-200 hover:bg-gray-300 font-bold text-xs flex items-center justify-center">+</button>
+                        </div>
+
+                        <div class="text-right min-w-[70px]">
+                            <span class="font-bold text-sm text-gray-900">$${itemTotal.toLocaleString('es-CL')}</span>
+                        </div>
+
+                        <button onclick="removeItem(${index})" class="text-red-500 hover:text-red-700 text-sm p-1">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                `;
+            }).join("");
+
+            document.getElementById("cartTotal").innerText = `$${total.toLocaleString('es-CL')}`;
+        }
+
+        function changeQty(index, delta) {
+            cart[index].quantity += delta;
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+            updateCartCount();
+            renderCartItems();
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            updateCartCount();
+            renderCartItems();
+        }
+
+        // WhatsApp Order Generation
+        function sendWhatsAppOrder() {
+            if (cart.length === 0) {
+                alert("Por favor, agrega al menos un producto al pedido.");
+                return;
+            }
+
+            const name = document.getElementById("customerName").value.trim();
+            const address = document.getElementById("customerAddress").value.trim();
+            const notes = document.getElementById("customerNotes").value.trim();
+
+            if (!name) {
+                alert("Por favor ingresa tu nombre.");
+                document.getElementById("customerName").focus();
+                return;
+            }
+
+            let total = 0;
+            let text = `🛒 *NUEVO PEDIDO - BENDICION MINIMARKET Y CARNICERIA*\n\n`;
+            text += `👤 *Cliente:* ${name}\n`;
+            if (address) text += `📍 *Dirección/Entrega:* ${address}\n`;
+            if (notes) text += `📝 *Notas:* ${notes}\n`;
+            text += `-----------------------------------\n`;
+            text += `*DETALLE DEL PEDIDO:*\n\n`;
+
+            cart.forEach(item => {
+                const subtotal = item.price * item.quantity;
+                total += subtotal;
+                text += `• ${item.quantity}x ${item.name} - $${subtotal.toLocaleString('es-CL')}\n`;
+            });
+
+            text += `-----------------------------------\n`;
+            text += `💰 *TOTAL ESTIMADO:* $${total.toLocaleString('es-CL')}\n\n`;
+            text += `¡Quedo a la espera de la confirmación y detalles del pago!`;
+
+            const encodedText = encodeURIComponent(text);
+            const waUrl = `https://wa.me/56959501124?text=${encodedText}`;
+
+            window.open(waUrl, '_blank');
+        }
+
+        // ADMIN AUTH & MODAL FUNCTIONS
+        function toggleAdminModal() {
+            document.getElementById("adminAuthModal").classList.remove("hidden");
+            document.getElementById("adminPassword").value = "";
+            document.getElementById("adminAuthError").classList.add("hidden");
+        }
+
+        function closeAdminAuthModal() {
+            document.getElementById("adminAuthModal").classList.add("hidden");
+        }
+
+        function verifyAdminPass() {
+            const pass = document.getElementById("adminPassword").value;
+            if (pass === "1234") {
+                closeAdminAuthModal();
+                openAdminPanel();
+            } else {
+                document.getElementById("adminAuthError").classList.remove("hidden");
+            }
+        }
+
+        function openAdminPanel() {
+            renderAdminTable();
+            document.getElementById("adminPanelModal").classList.remove("hidden");
+        }
+
+        function closeAdminPanelModal() {
+            document.getElementById("adminPanelModal").classList.add("hidden");
+        }
+
+        function renderAdminTable() {
+            const tbody = document.getElementById("adminProductsTable");
+            
+            tbody.innerHTML = products.map(product => `
+                <tr class="hover:bg-gray-50 border-b">
+                    <td class="p-3 font-bold text-gray-800 flex items-center gap-2">
+                        <img src="${product.image}" onerror="handleImgError(this)" class="w-8 h-8 rounded object-cover border">
+                        <span>${product.name}</span>
+                    </td>
+                    <td class="p-3 uppercase text-[11px] font-semibold text-gray-500">${product.category}</td>
+                    <td class="p-3 font-bold text-brandRed">$${product.price.toLocaleString('es-CL')} <span class="text-[10px] text-gray-400">/${product.unit}</span></td>
+                    <td class="p-3 text-amber-800 font-semibold">${product.boxPrice ? '$' + product.boxPrice.toLocaleString('es-CL') : '-'}</td>
+                    <td class="p-3 text-center">
+                        <button onclick="toggleStock(${product.id})" class="px-2 py-1 rounded text-xs font-bold transition ${
+                            product.inStock 
+                            ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' 
+                            : 'bg-red-100 text-red-800 border border-red-300'
+                        }">
+                            ${product.inStock ? '<i class="fa-solid fa-check mr-1"></i> Disponible' : '<i class="fa-solid fa-xmark mr-1"></i> Sin Stock'}
+                        </button>
+                    </td>
+                    <td class="p-3 text-right space-x-1">
+                        <button onclick="openProductEditModal(${product.id})" class="bg-blue-600 hover:bg-blue-700 text-white p-1.5 rounded text-xs">
+                            <i class="fa-solid fa-pen"></i> Editar
+                        </button>
+                        <button onclick="deleteProduct(${product.id})" class="bg-red-600 hover:bg-red-700 text-white p-1.5 rounded text-xs">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join("");
+        }
+
+        function toggleStock(productId) {
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                product.inStock = !product.inStock;
+                saveProductsToStorage();
+                renderAdminTable();
+                renderProducts();
+            }
+        }
+
+        function deleteProduct(productId) {
+            if (confirm("¿Estás seguro de eliminar este producto del catálogo?")) {
+                products = products.filter(p => p.id !== productId);
+                saveProductsToStorage();
+                renderAdminTable();
+                renderProducts();
+            }
+        }
+
+        // EDIT / ADD PRODUCT FORM
+        function openProductEditModal(productId) {
+            const modal = document.getElementById("productEditModal");
+            const title = document.getElementById("editModalTitle");
+
+            if (productId) {
+                const product = products.find(p => p.id === productId);
+                title.innerText = "Editar Producto";
+                document.getElementById("editProductId").value = product.id;
+                document.getElementById("editProductName").value = product.name;
+                document.getElementById("editProductCategory").value = product.category;
+                document.getElementById("editProductUnit").value = product.unit;
+                document.getElementById("editProductPrice").value = product.price;
+                document.getElementById("editProductBoxPrice").value = product.boxPrice || "";
+                document.getElementById("editProductImage").value = product.image;
+                document.getElementById("editProductStock").value = product.inStock ? "true" : "false";
+            } else {
+                title.innerText = "Agregar Nuevo Producto";
+                document.getElementById("editProductId").value = "";
+                document.getElementById("productForm").reset();
+                document.getElementById("editProductStock").value = "true";
+                document.getElementById("editProductImage").value = "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=600&q=80";
+            }
+
+            modal.classList.remove("hidden");
+        }
+
+        function closeProductEditModal() {
+            document.getElementById("productEditModal").classList.add("hidden");
+        }
+
+        function saveProductForm(event) {
+            event.preventDefault();
+
+            const id = document.getElementById("editProductId").value;
+            const name = document.getElementById("editProductName").value.trim();
+            const category = document.getElementById("editProductCategory").value;
+            const unit = document.getElementById("editProductUnit").value;
+            const price = parseInt(document.getElementById("editProductPrice").value) || 0;
+            const boxPriceVal = document.getElementById("editProductBoxPrice").value;
+            const boxPrice = boxPriceVal ? parseInt(boxPriceVal) : null;
+            const image = document.getElementById("editProductImage").value.trim();
+            const inStock = document.getElementById("editProductStock").value === "true";
+
+            if (id) {
+                // Update existing
+                const index = products.findIndex(p => p.id === parseInt(id));
+                if (index > -1) {
+                    products[index] = { ...products[index], name, category, unit, price, boxPrice, image, inStock };
+                }
+            } else {
+                // Create new
+                const newId = Date.now();
+                products.push({ id: newId, name, category, unit, price, boxPrice, image, inStock });
+            }
+
+            saveProductsToStorage();
+            renderProducts();
+            renderAdminTable();
+            closeProductEditModal();
+        }
+    </script>
+</body>
+</html>
