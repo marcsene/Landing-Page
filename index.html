@@ -333,46 +333,30 @@
         // Default initial products list
         const defaultProducts = [
             // Carniceria
-            { id: 1, name: "Chuleta de Cerdo Fresca", category: "carnes", price: 4790, boxPrice: 22500, unit: "Kg", inStock: true,
-             image: "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=600&q=80" },
-            { id: 2, name: "Chuleta Centro de Cerdo", category: "carnes", price: 4690, boxPrice: 22000, unit: "Kg", inStock: true,
-             image: "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=600&q=80" },
-            { id: 3, name: "Filete de Cerdo", category: "carnes", price: 3800, boxPrice: 18000, unit: "Kg", inStock: true,
-             image: "https://images.unsplash.com/photo-1603048588665-791ca8aea617?auto=format&fit=crop&w=600&q=80" },
-            { id: 4, name: "Pulpa de Cerdo", category: "carnes", price: 2500, boxPrice: 12000, unit: "Kg", inStock: true,
-             image: "https://images.unsplash.com/photo-1603048588665-791ca8aea617?auto=format&fit=crop&w=600&q=80" },
-            { id: 5, name: "Costillar de Cerdo Crudo", category: "carnes", price: 5990, boxPrice: 28000, unit: "Kg", inStock: true, 
-            image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80" },
-            { id: 6, name: "Patita de Cerdo", category: "carnes", price: 2000, boxPrice: 9500, unit: "Kg", inStock: false,
-             image: "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=600&q=80" },
-            { id: 7, name: "Pierna de Pollo Fresca", category: "carnes", price: 2590, boxPrice: 12000, unit: "Kg", inStock: true,
-             image: "https://images.unsplash.com/photo-1587593810167-a84920ea0781?auto=format&fit=crop&w=600&q=80" },
-            { id: 8, name: "Hueso de Vacuno / Cazuela", category: "carnes", price: 2000, boxPrice: 9000, unit: "Kg", inStock: true,
-             image: "https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=600&q=80" },
+            { id: 1, name: "Chuleta de Cerdo Fresca", category: "carnes", price: 4790, boxPrice: 22500, unit: "Kg", inStock: true, image: "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=600&q=80" },
+            { id: 2, name: "Chuleta Centro de Cerdo", category: "carnes", price: 4690, boxPrice: 22000, unit: "Kg", inStock: true, image: "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=600&q=80" },
+            { id: 3, name: "Filete de Cerdo", category: "carnes", price: 3800, boxPrice: 18000, unit: "Kg", inStock: true, image: "https://images.unsplash.com/photo-1603048588665-791ca8aea617?auto=format&fit=crop&w=600&q=80" },
+            { id: 4, name: "Pulpa de Cerdo", category: "carnes", price: 2500, boxPrice: 12000, unit: "Kg", inStock: true, image: "https://images.unsplash.com/photo-1603048588665-791ca8aea617?auto=format&fit=crop&w=600&q=80" },
+            { id: 5, name: "Costillar de Cerdo Crudo", category: "carnes", price: 5990, boxPrice: 28000, unit: "Kg", inStock: true, image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80" },
+            { id: 6, name: "Patita de Cerdo", category: "carnes", price: 2000, boxPrice: 9500, unit: "Kg", inStock: false, image: "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=600&q=80" },
+            { id: 7, name: "Pierna de Pollo Fresca", category: "carnes", price: 2590, boxPrice: 12000, unit: "Kg", inStock: true, image: "https://images.unsplash.com/photo-1587593810167-a84920ea0781?auto=format&fit=crop&w=600&q=80" },
+            { id: 8, name: "Hueso de Vacuno / Cazuela", category: "carnes", price: 2000, boxPrice: 9000, unit: "Kg", inStock: true, image: "https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=600&q=80" },
 
             // Cecinas
-            { id: 9, name: "Vienesas Seleccionadas x 1kg", category: "cecinas", price: 3200, boxPrice: null, unit: "Unid", inStock: true,
-             image: "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=600&q=80" },
-            { id: 10, name: "Queso Laminado Mantecoso 250g", category: "cecinas", price: 2800, boxPrice: null, unit: "Unid", inStock: true,
-             image: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?auto=format&fit=crop&w=600&q=80" },
-            { id: 11, name: "Jamón Sándwich Ariceta 200g", category: "cecinas", price: 1990, boxPrice: null, unit: "Unid", inStock: true,
-             image: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=600&q=80" },
+            { id: 9, name: "Vienesas Seleccionadas x 1kg", category: "cecinas", price: 3200, boxPrice: null, unit: "Unid", inStock: true, image: "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=600&q=80" },
+            { id: 10, name: "Queso Laminado Mantecoso 250g", category: "cecinas", price: 2800, boxPrice: null, unit: "Unid", inStock: true, image: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?auto=format&fit=crop&w=600&q=80" },
+            { id: 11, name: "Jamón Sándwich Ariceta 200g", category: "cecinas", price: 1990, boxPrice: null, unit: "Unid", inStock: true, image: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=600&q=80" },
 
             // Confites y Pan
-            { id: 12, name: "Pan Marraqueta / Hallulla", category: "confites", price: 1890, boxPrice: null, unit: "Kg", inStock: true,
-             image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&q=80" },
-            { id: 13, name: "Bolsa de Dulces Surtidos", category: "confites", price: 1500, boxPrice: null, unit: "Unid", inStock: false,
-             image: "https://images.unsplash.com/photo-1582058091505-f87a2e55a40f?auto=format&fit=crop&w=600&q=80" },
+            { id: 12, name: "Pan Marraqueta / Hallulla", category: "confites", price: 1890, boxPrice: null, unit: "Kg", inStock: true, image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&q=80" },
+            { id: 13, name: "Bolsa de Dulces Surtidos", category: "confites", price: 1500, boxPrice: null, unit: "Unid", inStock: false, image: "https://images.unsplash.com/photo-1582058091505-f87a2e55a40f?auto=format&fit=crop&w=600&q=80" },
 
             // Bebidas y Lacteos
-            { id: 14, name: "Bebida Coca-Cola 2.5L", category: "bebidas", price: 2600, boxPrice: null, unit: "Unid", inStock: true,
-             image: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=600&q=80" },
-            { id: 15, name: "Leche Entera 1L", category: "bebidas", price: 1100, boxPrice: null, unit: "Unid", inStock: true,
-             image: "https://www.dipy.cl/cdn/shop/products/cl_495711.jpg?v=1661832682" },
+            { id: 14, name: "Bebida Coca-Cola 2.5L", category: "bebidas", price: 2600, boxPrice: null, unit: "Unid", inStock: true, image: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=600&q=80" },
+            { id: 15, name: "Leche Entera 1L", category: "bebidas", price: 1100, boxPrice: null, unit: "Unid", inStock: true, image: "https://images.unsplash.com/photo-1563636619-e9143da7973b?auto=format&fit=crop&w=600&q=80" },
 
             // Articulos Aseo
-            { id: 16, name: "Detergente Multiuso 3L", category: "aseo", price: 4990, boxPrice: null, unit: "Unid", inStock: true,
-             image: "https://images.unsplash.com/photo-1585842378054-ee2e52f94ba2?auto=format&fit=crop&w=600&q=80" }
+            { id: 16, name: "Detergente Multiuso 3L", category: "aseo", price: 4990, boxPrice: null, unit: "Unid", inStock: true, image: "https://images.unsplash.com/photo-1585842378054-ee2e52f94ba2?auto=format&fit=crop&w=600&q=80" }
         ];
 
         // Categories Map
