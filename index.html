@@ -3,768 +3,844 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Galería Exclusiva</title>
-    
-    <!-- SDK OFICIAL DE PAYPAL -->
-    <script src="https://www.paypal.com/sdk/js?client-id=BAACYyD5Un0D7mv1tBIm4msrzsCOSkTNEZApPGXrbB-vEWbxDbMbMBNePVRFuz3uChm44PYoKoUxC02aPo"></script>
-
+    <title>BENDICION Minimarket y Carniceria - Pedidos Online</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Color Palette setup with Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandRed: '#D32F2F',
+                        brandRedDark: '#9A0007',
+                        brandBlack: '#1A1A1A',
+                        brandGold: '#FFC107'
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        
-:root {
-    --bg: #171515;
-    --surface: #141418;
-    --primary: #f43f5e;
-    --primary-hover: #e11d48;
-    --text: #f5f2f3;
-    --text-muted: #a1a1aa;
-    --border: #ababb5;
-}
-
-- {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-html {
-    min-height: 100%;
-}
-
-body {
-    background-color: var(--bg);
-    color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
-        Roboto, Helvetica, Arial, sans-serif;
-    min-height: 100vh;
-    min-height: 100dvh;
-    padding: 0;
-}
-
-.app-container {
-    width: 100%;
-    min-height: 100vh;
-    min-height: 100dvh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.step {
-    display: none;
-    width: 100%;
-    text-align: center;
-}
-
-.step.active {
-    display: flex !important;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    animation: fadeIn 0.35s ease-in-out;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-/* =========================================
-   PORTADA: FOTOGRAFÍA A PANTALLA COMPLETA
-   ========================================= */
-
-#step-1 {
-    min-height: 100vh;
-    min-height: 100dvh;
-}
-
-#step-1.step.active {
-    display: flex !important;
-}
-
-.hero-full-container {
-    position: relative;
-    isolation: isolate;
-    width: 100%;
-    max-width: none;
-    min-height: 100vh;
-    min-height: 100dvh;
-    padding: clamp(24px, 5vw, 70px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 24px;
-    overflow: hidden;
-}
-
-/* Imagen de fondo sin bordes ni márgenes */
-.hero-banner-full {
-    position: absolute;
-    inset: 0;
-    z-index: -2;
-    display: block;
-    width: 100%;
-    height: 100%;
-    max-width: none;
-    max-height: none;
-    object-fit: cover;
-    object-position: 68% center;
-    border-radius: 0;
-    margin: 0;
-    
-}
-
-/* Oscurece el fondo para mejorar la lectura */
-.hero-full-container::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background: linear-gradient(
-        90deg,
-        rgba(15, 12, 14, 0.82) 0%,
-        rgba(15, 12, 14, 0.55) 48%,
-        rgba(15, 12, 14, 0.20) 100%
-    );
-    pointer-events: none;
-}
-
-/* Texto principal grande y elegante */
-#txt-hero-msg,
-.hero-text-clean {
-    position: relative;
-    z-index: 1;
-    width: min(100%, 1000px);
-    margin: 0;
-    padding: 0 12px;
-    color: #ffffff;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: clamp(1.5rem, 3vw, 2.4rem) !important;
-    font-weight: 500;
-    line-height: 1.55;
-    text-align: center;
-    text-wrap: balance;
-    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.75);
-}
-
-/* Botón de portada */
-.hero-full-container .btn.primary {
-    position: relative;
-    z-index: 1;
-    flex-shrink: 0;
-    width: min(100%, 420px);
-    margin-top: 12px;
-    padding: 18px 24px;
-    border-radius: 16px;
-    font-size: 1.15rem;
-    box-shadow: 0 8px 28px rgba(244, 63, 94, 0.35);
-}
-
-/* =========================================
-   TARJETAS DE PAGO Y PASO SOCIAL
-   ========================================= */
-
-.card-box {
-    width: 90%;
-    max-width: 440px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 24px;
-    padding: 32px 24px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-}
-
-h2 {
-    font-size: 1.6rem;
-    margin-bottom: 10px;
-    font-weight: 700;
-}
-
-.text-muted {
-    color: var(--text-muted);
-    font-size: 0.95rem;
-    margin-bottom: 16px;
-    line-height: 1.5;
-}
-
-/* ESTILO PARA LA CAJA DE SEGURIDAD Y CONFIANZA */
-.security-notice {
-    background: rgba(244, 63, 94, 0.08);
-    border: 1px solid rgba(244, 63, 94, 0.25);
-    border-radius: 12px;
-    padding: 12px 14px;
-    margin-bottom: 20px;
-    text-align: left;
-}
-
-.security-notice p {
-    font-size: 0.85rem;
-    color: var(--text);
-    line-height: 1.45;
-    margin: 0;
-}
-
-.form-group {
-    text-align: left;
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    display: block;
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    margin-bottom: 8px;
-}
-
-select {
-    width: 100%;
-    padding: 14px;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    color: var(--text);
-    border-radius: 12px;
-    font-size: 1rem;
-    outline: none;
-    max-height: 200px;
-}
-
-.price-display {
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: var(--primary);
-    margin: 20px 0;
-}
-
-#paypal-button-container {
-    width: 100%;
-    margin-top: 15px;
-    min-height: 50px;
-}
-
-/* Botones generales */
-.btn {
-    width: 100%;
-    max-width: 400px;
-    padding: 16px;
-    border: none;
-    border-radius: 14px;
-    font-size: 1.05rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s ease, transform 0.2s ease;
-    margin-top: 10px;
-}
-
-.btn.primary {
-    background: var(--primary);
-    color: #ffffff;
-    box-shadow: 0 4px 20px rgba(244, 63, 94, 0.3);
-}
-
-.btn.primary:hover {
-    background: var(--primary-hover);
-    transform: translateY(-2px);
-}
-
-.btn.social {
-    color: #ffffff;
-    margin-bottom: 12px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-}
-
-.btn.social.whatsapp {
-    background: #25d366;
-}
-
-.btn.social.facebook {
-    background: #1877f2;
-}
-
-.mt-4 {
-    margin-top: 20px;
-}
-
-/* =========================================
-   GALERÍA DE FOTOGRAFÍAS
-   ========================================= */
-
-.gallery-container {
-    width: 100%;
-    max-width: 1200px;
-    padding: 24px 16px;
-}
-
-.gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 16px;
-    margin-top: 20px;
-}
-
-.gallery-card img {
-    width: 100%;
-    height: 360px;
-    object-fit: cover;
-    border-radius: 16px;
-    display: block;
-}
-
-/* =========================================
-   DISEÑO RESPONSIVE PARA CELULARES
-   ========================================= */
-
-@media (max-width: 768px) {
-    .hero-full-container {
-        padding: 28px 18px;
-        gap: 20px;
-    }
-
-    #txt-hero-msg,
-    .hero-text-clean {
-        font-size: clamp(1.25rem, 5vw, 1.65rem) !important;
-        line-height: 1.55;
-        width: 100%;
-        padding: 0 8px;
-    }
-
-    .hero-full-container .btn.primary {
-        width: 100%;
-        max-width: 360px;
-    }
-
-    .card-box {
-        padding: 28px 20px;
-        border-radius: 20px;
-    }
-
-    .gallery-container {
-        padding: 20px 12px;
-    }
-
-    .gallery-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 11px;
-    }
-
-    .gallery-card img {
-        height: clamp(190px, 62vw, 300px);
-        border-radius: 10px;
-    }
-}
-
-@media (max-width: 360px) {
-    .gallery-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .gallery-card img {
-        height: 360px;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
-    }
-}
-
-/* AJUSTE EXCLUSIVO PARA CELULARES (MÓVIL) */
-@media (max-width: 768px) {
-    .hero-full-container {
-        padding: 16px;
-        max-width: 100%;
-    }
-
-    .hero-banner-full {
-        width: 100%;
-        max-width: 100%;
-        max-height: 45vh;
-        object-fit: contain;
-        margin: 0 auto 16px auto;
-        display: block;
-    }
-
-    .hero-text-clean {
-        font-size: 0.95rem;
-        padding: 0 12px;
-        margin-bottom: 20px;
-    }
-}
+        .product-card {
+            transition: all 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+        .bg-pattern {
+            background-color: #f8f9fa;
+            background-image: radial-gradient(#d32f2f 0.5px, transparent 0.5px), radial-gradient(#1a1a1a 0.5px, #f8f9fa 0.5px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            background-opacity: 0.05;
+        }
     </style>
 </head>
-<body>
-    <main class="app-container">
+<body class="bg-gray-100 text-gray-800 font-sans min-h-screen flex flex-col">
 
-        <!-- PASO 1: PORTADA PRINCIPAL -->
-        <section id="step-1" class="step active">
-            <div class="hero-full-container">
-                <img src="imagenes/portada.jpg" alt="Portada" class="hero-banner-full">                
-                <p class="hero-text-clean" id="txt-hero-msg">
-                    ✨ Descubre una colección exclusiva de belleza, elegancia y estilo.
-                     Déjate sorprender por una selección de fotografías que inspiran y cautivan.
-                        ¡Tu próxima colección favorita te espera!
-                </p>
-                <button class="btn primary" onclick="app.nextStep()">Siguiente</button>
-            </div>
-        </section>
-
-        <!-- PASO 2: MURO DE PAGO E INTERNACIONALIZACIÓN GLOBAL -->
-        <section id="step-2" class="step">
-            <div class="card-box">
-                <h2 id="txt-pay-title">Acceso Restringido</h2>
-                <p id="txt-pay-msg" class="text-muted">Si quieres seguir viendo la página tienes que pagar 1.000 CLP , dar click en tarjeta (o su equivalente en tu moneda local).</p>
-                
-                <!-- CAJA DE SEGURIDAD Y CONFIANZA TRADUCIBLE -->
-                <div class="security-notice">
-                    <p id="txt-security-msg">🔒 <strong>Pago único y seguro:</strong> El cobro se realiza <strong>una sola vez</strong> (sin suscripciones ni cobros automáticos). <strong>Tus datos bancarios no quedan guardados</strong> ni registrados en ningún lado.</p>
+    <!-- Header / Banner -->
+    <header class="bg-brandBlack text-white shadow-lg sticky top-0 z-40 border-b-4 border-brandRed">
+        <!-- Top Bar Notice -->
+        <div class="bg-brandRed text-white text-xs text-center py-1 font-bold px-2">
+            📍 BENDICION Minimarket y Carniceria | Envíos y Pedidos directo a WhatsApp: +56 9 5950 1124
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center flex-wrap gap-2">
+            <!-- Brand Logo / Title -->
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('catalog')">
+                <div class="bg-brandRed text-white p-2 rounded-lg font-black text-2xl shadow border border-white">
+                    <i class="fa-solid font-bold fa-drumstick-bite"></i>
                 </div>
-
-                <div class="form-group">
-                    <label for="country-select" id="txt-label-country">Selecciona tu país / Región:</label>
-                    <select id="country-select" onchange="app.onCountryChange()">
-                        <option value="CL" data-currency="CLP" data-lang="es">Chile (CLP)</option>
-                        <option value="AR" data-currency="ARS" data-lang="es">Argentina (ARS)</option>
-                        <option value="BO" data-currency="BOB" data-lang="es">Bolivia (BOB)</option>
-                        <option value="BR" data-currency="BRL" data-lang="pt">Brasil (BRL)</option>
-                        <option value="CO" data-currency="COP" data-lang="es">Colombia (COP)</option>
-                        <option value="CR" data-currency="CRC" data-lang="es">Costa Rica (CRC)</option>
-                        <option value="CU" data-currency="CUP" data-lang="es">Cuba (CUP)</option>
-                        <option value="DO" data-currency="DOP" data-lang="es">República Dominicana (DOP)</option>
-                        <option value="EC" data-currency="USD" data-lang="es">Ecuador (USD)</option>
-                        <option value="SV" data-currency="USD" data-lang="es">El Salvador (USD)</option>
-                        <option value="GT" data-currency="GTQ" data-lang="es">Guatemala (GTQ)</option>
-                        <option value="HN" data-currency="HNL" data-lang="es">Honduras (HNL)</option>
-                        <option value="MX" data-currency="MXN" data-lang="es">México (MXN)</option>
-                        <option value="NI" data-currency="NIO" data-lang="es">Nicaragua (NIO)</option>
-                        <option value="PA" data-currency="PAB" data-lang="es">Panamá (PAB)</option>
-                        <option value="PY" data-currency="PYG" data-lang="es">Paraguay (PYG)</option>
-                        <option value="PE" data-currency="PEN" data-lang="es">Perú (PEN)</option>
-                        <option value="PR" data-currency="USD" data-lang="es">Puerto Rico (USD)</option>
-                        <option value="UY" data-currency="UYU" data-lang="es">Uruguay (UYU)</option>
-                        <option value="VE" data-currency="VES" data-lang="es">Venezuela (VES)</option>
-                        <option value="HT" data-currency="HTG" data-lang="fr">Haití (HTG)</option>
-                        <option value="US" data-currency="USD" data-lang="en">Estados Unidos (USD)</option>
-                        <option value="CA" data-currency="CAD" data-lang="en">Canadá (CAD)</option>
-                        <option value="JM" data-currency="JMD" data-lang="en">Jamaica (JMD)</option>
-                        <option value="ES" data-currency="EUR" data-lang="es">España (EUR)</option>
-                        <option value="FR" data-currency="EUR" data-lang="fr">Francia (EUR)</option>
-                        <option value="DE" data-currency="EUR" data-lang="en">Alemania (EUR)</option>
-                        <option value="IT" data-currency="EUR" data-lang="es">Italia (EUR)</option>
-                        <option value="GB" data-currency="GBP" data-lang="en">Reino Unido (GBP)</option>
-                        <option value="CH" data-currency="CHF" data-lang="en">Suiza (CHF)</option>
-                        <option value="SE" data-currency="SEK" data-lang="en">Suecia (SEK)</option>
-                        <option value="NO" data-currency="NOK" data-lang="en">Noruega (NOK)</option>
-                        <option value="JP" data-currency="JPY" data-lang="en">Japón (JPY)</option>
-                        <option value="CN" data-currency="CNY" data-lang="en">China (CNY)</option>
-                        <option value="AU" data-currency="AUD" data-lang="en">Australia (AUD)</option>
-                        <option value="NZ" data-currency="NZD" data-lang="en">Nueva Zelanda (NZD)</option>
-                        <option value="IN" data-currency="INR" data-lang="en">India (INR)</option>
-                        <option value="OTHER" data-currency="USD" data-lang="en">Otro País / Resto del Mundo (USD)</option>
-                    </select>
-                </div>
-
-                <div class="price-display" id="price-output">Calculando...</div>
-
-                <!-- CONTENEDOR DE BOTONES PAYPAL OFICIALES -->
-                <div id="paypal-button-container"></div>
-            </div>
-        </section>
-
-        <!-- PASO 3: INTERACCIÓN SOCIAL -->
-        <section id="step-3" class="step">
-            <div class="card-box">
-                <h2 id="txt-share-title">¡Pago Confirmado! 🎉</h2>
-                <p id="txt-share-msg" class="text-muted">Después de confirmar el pago, comparte y dale like para continuar.</p>
-                
-                <button class="btn social whatsapp" onclick="app.share('wa')">Compartir en WhatsApp</button>
-                <button class="btn social facebook" onclick="app.share('fb')">Compartir en Facebook</button>
-                
-                <button class="btn primary mt-4" onclick="app.nextStep()">Siguiente a la Galería</button>
-            </div>
-        </section>
-
-        <!-- PASO 4: CATÁLOGO DE FOTOS -->
-        <section id="step-4" class="step">
-            <div class="gallery-container">
-                <h2 id="txt-gallery-title">Galería Exclusiva</h2>
-                <p id="txt-gallery-sub" class="text-muted">Disfruta de la colección de fotos de las mujeres más hermosas.</p>
-                
-                <div class="gallery-grid">
-                    <div class="gallery-card"><img src="imagenes/foto1.jpg" alt="Vestido dorado de fiesta"></div>
-                    <div class="gallery-card"><img src="imagenes/foto2.jpg" alt="Vestido negro elegante"></div>
-                    <div class="gallery-card"><img src="imagenes/foto3.jpg" alt="Vestido corto de lentejuelas"></div>
-                    <div class="gallery-card"><img src="imagenes/foto4.jpg" alt="Vestido rojo de noche"></div>
-                    <div class="gallery-card"><img src="imagenes/foto5.jpg" alt="Vestido plateado brillante"></div>
-                    <div class="gallery-card"><img src="imagenes/foto6.jpg" alt="Vestido dorado ajustado"></div>
-                    <div class="gallery-card"><img src="imagenes/foto7.jpg" alt="Vestido negro con brillo"></div>
-                    <div class="gallery-card"><img src="imagenes/foto8.jpg" alt="Vestido rosa elegante"></div>
-                    <div class="gallery-card"><img src="imagenes/foto9.jpg" alt="Vestido azul de fiesta"></div>
-                    <div class="gallery-card"><img src="imagenes/foto10.jpg" alt="Vestido champagne con lentejuelas"></div>
-                    <div class="gallery-card"><img src="imagenes/foto11.jpg" alt="Vestido verde esmeralda"></div>
-                    <div class="gallery-card"><img src="imagenes/foto12.jpg" alt="Vestido blanco de noche"></div>
-                    <div class="gallery-card"><img src="imagenes/foto13.jpg" alt="Vestido morado brillante"></div>
-                    <div class="gallery-card"><img src="imagenes/foto14.jpg" alt="Vestido corto con escote elegante"></div>
-                    <div class="gallery-card"><img src="imagenes/foto15.jpg" alt="Vestido rojo con lentejuelas"></div>
-                    <div class="gallery-card"><img src="imagenes/foto16.jpg" alt="Vestido negro de cóctel"></div>
-                    <div class="gallery-card"><img src="imagenes/foto17.jpg" alt="Vestido dorado de noche"></div>
-                    <div class="gallery-card"><img src="imagenes/foto18.jpg" alt="Vestido plateado de fiesta"></div>
-                    <div class="gallery-card"><img src="imagenes/foto19.jpg" alt="Vestido elegante con brillo"></div>
-                    <div class="gallery-card"><img src="imagenes/foto20.jpg" alt="Vestido de fiesta moderno"></div>
-                    <div class="gallery-card"><img src="imagenes/foto21.jpg" alt="Vestido dorado de fiesta"></div>
-                    <div class="gallery-card"><img src="imagenes/foto22.jpg" alt="Vestido negro elegante"></div>
-                    <div class="gallery-card"><img src="imagenes/foto23.jpg" alt="Vestido corto de lentejuelas"></div>
-                    <div class="gallery-card"><img src="imagenes/foto24.jpg" alt="Vestido rojo de noche"></div>
-                    <div class="gallery-card"><img src="imagenes/foto25.jpg" alt="Vestido plateado brillante"></div>
-                    <div class="gallery-card"><img src="imagenes/foto26.jpg" alt="Vestido dorado ajustado"></div>
-                    <div class="gallery-card"><img src="imagenes/foto27.jpg" alt="Vestido negro con brillo"></div>
-                    <div class="gallery-card"><img src="imagenes/foto28.jpg" alt="Vestido rosa elegante"></div>
-                    <div class="gallery-card"><img src="imagenes/foto29.jpg" alt="Vestido azul de fiesta"></div>
-                    <div class="gallery-card"><img src="imagenes/foto30.jpg" alt="Vestido champagne con lentejuelas"></div>
-                    <div class="gallery-card"><img src="imagenes/foto31.jpg" alt="Vestido verde esmeralda"></div>
-                    <div class="gallery-card"><img src="imagenes/foto32.jpg" alt="Vestido blanco de noche"></div>
-                    <div class="gallery-card"><img src="imagenes/foto33.jpg" alt="Vestido morado brillante"></div>
-                    <div class="gallery-card"><img src="imagenes/foto34.jpg" alt="Vestido corto con escote elegante"></div>
-                    <div class="gallery-card"><img src="imagenes/foto35.jpg" alt="Vestido rojo con lentejuelas"></div>
-                    <div class="gallery-card"><img src="imagenes/foto36.jpg" alt="Vestido negro de cóctel"></div>
-                    <div class="gallery-card"><img src="imagenes/foto37.jpg" alt="Vestido dorado de noche"></div>
-                    <div class="gallery-card"><img src="imagenes/foto38.jpg" alt="Vestido plateado de fiesta"></div>
-                    <div class="gallery-card"><img src="imagenes/foto39.jpg" alt="Vestido elegante con brillo"></div>
-                    <div class="gallery-card"><img src="imagenes/foto40.jpg" alt="Vestido de fiesta moderno"></div>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-black uppercase tracking-wider text-white leading-tight">
+                        BENDICION
+                    </h1>
+                    <p class="text-xs font-semibold text-gray-300 uppercase tracking-widest">
+                        Minimarket y Carniceria
+                    </p>
                 </div>
             </div>
-        </section>
+
+            <!-- Header Action Buttons -->
+            <div class="flex items-center space-x-3">
+                <!-- Admin Button -->
+                <button onclick="toggleAdminModal()" class="bg-gray-800 hover:bg-gray-700 text-xs md:text-sm text-gray-200 px-3 py-2 rounded-lg border border-gray-600 transition flex items-center gap-1 font-medium">
+                    <i class="fa-solid fa-user-gear text-brandGold"></i>
+                    <span>Panel Admin</span>
+                </button>
+
+                <!-- Cart Counter Button -->
+                <button onclick="openCartModal()" class="bg-brandRed hover:bg-brandRedDark text-white px-4 py-2 rounded-lg shadow font-bold text-sm transition flex items-center gap-2 relative">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span id="cartCount" class="bg-white text-brandRed font-extrabold text-xs px-2 py-0.5 rounded-full">0</span>
+                    <span class="hidden sm:inline">Ver Pedido</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-6">
+
+        <!-- Category Filters -->
+        <div class="flex overflow-x-auto space-x-2 pb-4 mb-6 scrollbar-none" id="categoryFilters">
+            <!-- Dynamic Category Buttons populated by JS -->
+        </div>
+
+        <!-- Out of Stock Info Alert -->
+        <div class="bg-amber-50 border-l-4 border-amber-500 p-3 rounded-r mb-6 text-xs md:text-sm text-amber-800 flex items-center justify-between shadow-sm">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-circle-info text-amber-600 text-base"></i>
+                <span>Los productos marcados en gris como <strong>"Sin Stock / Agotado"</strong> no están disponibles temporalmente.</span>
+            </div>
+            <span class="text-xs bg-amber-200 text-amber-900 px-2 py-0.5 rounded font-bold uppercase">Aviso</span>
+        </div>
+
+        <!-- Products Grid -->
+        <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <!-- Dynamic Product Cards populated by JS -->
+        </div>
 
     </main>
 
+    <!-- Footer -->
+    <footer class="bg-brandBlack text-gray-400 text-sm border-t-4 border-brandRed mt-12">
+        <div class="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+                <h3 class="text-white font-black text-lg mb-2 uppercase">BENDICION</h3>
+                <p class="text-xs text-gray-300 mb-3">Minimarket y Carniceria con la mejor calidad en carnes, cecinas, abarrotes y productos para tu hogar.</p>
+                <div class="text-xs text-gray-400">
+                    <p><i class="fa-solid fa-location-dot text-brandRed mr-2"></i> Dirección: Carlos Avilés #355, Melipilla</p>
+                    <p><i class="fa-solid fa-phone text-brandRed mr-2"></i> WhatsApp: +56 9 5950 1124</p>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="text-white font-bold text-sm mb-2 uppercase border-b border-gray-700 pb-1">Horario de Atención</h4>
+                <p class="text-xs text-gray-300">Lunes a Sábado: 8:30 AM - 8:30 PM</p>
+                <p class="text-xs text-gray-300">Domingos y Festivos: 9:00 AM - 3:00 PM</p>
+            </div>
+
+            <div>
+                <h4 class="text-white font-bold text-sm mb-2 uppercase border-b border-gray-700 pb-1">Medios de Pago</h4>
+                <div class="flex gap-2 text-xl text-gray-300 mt-2">
+                    <span class="bg-gray-800 px-2 py-1 rounded text-xs border border-gray-700">Efectivo</span>
+                    <span class="bg-gray-800 px-2 py-1 rounded text-xs border border-gray-700">Transferencia</span>
+                    <span class="bg-gray-800 px-2 py-1 rounded text-xs border border-gray-700">Débito / Crédito</span>
+                </div>
+            </div>
+        </div>
+        <div class="bg-black py-3 text-center text-xs text-gray-500 border-t border-gray-800">
+            © 2026 BENDICION Minimarket y Carniceria. Todos los derechos reservados.
+        </div>
+    </footer>
+
+    <!-- CART MODAL -->
+    <div id="cartModal" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full overflow-hidden flex flex-col max-h-[90vh]">
+            <!-- Modal Header -->
+            <div class="bg-brandRed text-white px-5 py-4 flex justify-between items-center">
+                <h3 class="font-bold text-lg flex items-center gap-2">
+                    <i class="fa-solid fa-cart-shopping"></i> Tu Pedido
+                </h3>
+                <button onclick="closeCartModal()" class="text-white hover:text-gray-200 text-xl font-bold">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body (Cart Items) -->
+            <div id="cartItemsContainer" class="p-5 overflow-y-auto flex-grow divide-y divide-gray-200">
+                <!-- Cart items JS -->
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="bg-gray-50 p-5 border-t border-gray-200">
+                <div class="flex justify-between items-center text-lg font-bold text-gray-900 mb-4">
+                    <span>Total Estimado:</span>
+                    <span id="cartTotal" class="text-brandRed text-xl">$0</span>
+                </div>
+
+                <!-- Customer Details Form -->
+                <div class="space-y-3 mb-4">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Tu Nombre:</label>
+                        <input type="text" id="customerName" placeholder="Ej. Juan Pérez" class="w-full text-sm border rounded-lg p-2 focus:ring-2 focus:ring-brandRed outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Dirección / Retiro en Tienda:</label>
+                        <input type="text" id="customerAddress" placeholder="Ej. Retiro en local o Calle Ejemplo #123" class="w-full text-sm border rounded-lg p-2 focus:ring-2 focus:ring-brandRed outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Notas adicionales (opcional):</label>
+                        <textarea id="customerNotes" rows="2" placeholder="Ej. Cortes delgados de chuleta, pan bien caliente, etc." class="w-full text-sm border rounded-lg p-2 focus:ring-2 focus:ring-brandRed outline-none"></textarea>
+                    </div>
+                </div>
+
+                <button onclick="sendWhatsAppOrder()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 text-base shadow-lg transition">
+                    <i class="fa-brands fa-whatsapp text-xl"></i>
+                    <span>Enviar Pedido a WhatsApp</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN LOGIN MODAL -->
+    <div id="adminAuthModal" class="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-xl shadow-2xl max-w-sm w-full p-6 text-center">
+            <div class="w-12 h-12 bg-brandRed text-white rounded-full flex items-center justify-center mx-auto mb-3 text-xl">
+                <i class="fa-solid fa-lock"></i>
+            </div>
+            <h3 class="text-lg font-bold text-gray-800 mb-1">Acceso Administrador</h3>
+            <p class="text-xs text-gray-500 mb-4">Ingresa la clave para administrar precios y stock.</p>
+            
+            <input type="password" id="adminPassword" placeholder="Clave de administrador" class="w-full text-center border rounded-lg p-2 mb-3 text-sm focus:ring-2 focus:ring-brandRed outline-none" onkeyup="if(event.key==='Enter') verifyAdminPass()">
+            <p id="adminAuthError" class="text-red-600 text-xs mb-3 hidden">Clave incorrecta. Intenta nuevamente.</p>
+            <p class="text-xs text-gray-400 mb-4">(Clave por defecto: <code class="bg-gray-100 px-1 font-mono text-gray-700">1234</code>)</p>
+
+            <div class="flex gap-2">
+                <button onclick="closeAdminAuthModal()" class="w-1/2 bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 rounded-lg font-semibold text-sm">Cancelar</button>
+                <button onclick="verifyAdminPass()" class="w-1/2 bg-brandRed hover:bg-brandRedDark text-white py-2 rounded-lg font-semibold text-sm">Entrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN PANEL MODAL -->
+    <div id="adminPanelModal" class="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-xl shadow-2xl max-w-4xl w-full overflow-hidden flex flex-col max-h-[90vh]">
+            <!-- Header -->
+            <div class="bg-brandBlack text-white px-5 py-4 flex justify-between items-center border-b-4 border-brandRed">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-sliders text-brandGold"></i>
+                    <h3 class="font-bold text-lg">Panel Administrador - BENDICION</h3>
+                </div>
+                <button onclick="closeAdminPanelModal()" class="text-white hover:text-gray-300 text-xl font-bold">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Content Area -->
+            <div class="p-6 overflow-y-auto flex-grow bg-gray-50">
+                
+                <!-- Action bar inside admin -->
+                <div class="flex justify-between items-center mb-6">
+                    <h4 class="font-bold text-gray-800 text-md uppercase tracking-wider">Gestión de Inventario y Precios</h4>
+                    <button onclick="openProductEditModal(null)" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs md:text-sm font-bold px-3 py-2 rounded-lg flex items-center gap-1 shadow">
+                        <i class="fa-solid fa-plus"></i> Nuevo Producto
+                    </button>
+                </div>
+
+                <!-- Admin Products Table -->
+                <div class="bg-white rounded-lg shadow overflow-x-auto border border-gray-200">
+                    <table class="w-full text-left border-collapse text-xs md:text-sm">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-700 font-bold border-b border-gray-200 uppercase text-[11px]">
+                                <th class="p-3">Producto</th>
+                                <th class="p-3">Categoría</th>
+                                <th class="p-3">Precio Kilo / Un.</th>
+                                <th class="p-3">Precio Caja</th>
+                                <th class="p-3 text-center">Estado Stock</th>
+                                <th class="p-3 text-right">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminProductsTable" class="divide-y divide-gray-200">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <!-- Footer -->
+            <div class="bg-white px-6 py-3 border-t border-gray-200 flex justify-between items-center text-xs text-gray-500">
+                <span>Cambios guardados localmente.</span>
+                <button onclick="resetDefaultProducts()" class="text-brandRed hover:underline">Restablecer catálogo por defecto</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRODUCT EDIT / ADD MODAL -->
+    <div id="productEditModal" class="fixed inset-0 bg-black bg-opacity-70 backdrop-blur-sm z-[60] flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-xl shadow-2xl max-w-md w-full p-6">
+            <h3 id="editModalTitle" class="text-lg font-bold text-gray-900 mb-4 border-b pb-2">Editar Producto</h3>
+            
+            <form id="productForm" onsubmit="saveProductForm(event)" class="space-y-3 text-xs md:text-sm">
+                <input type="hidden" id="editProductId">
+
+                <div>
+                    <label class="block font-bold text-gray-700 mb-1">Nombre del Producto:</label>
+                    <input type="text" id="editProductName" required class="w-full border rounded p-2 focus:ring-2 focus:ring-brandRed outline-none">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold text-gray-700 mb-1">Categoría:</label>
+                        <select id="editProductCategory" class="w-full border rounded p-2 focus:ring-2 focus:ring-brandRed outline-none bg-white">
+                            <option value="carnes">Carnicería</option>
+                            <option value="cecinas">Cecinas</option>
+                            <option value="confites">Confites y Pan</option>
+                            <option value="bebidas">Bebidas y Lácteos</option>
+                            <option value="aseo">Art. de Aseo</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-bold text-gray-700 mb-1">Unidad Principal:</label>
+                        <select id="editProductUnit" class="w-full border rounded p-2 focus:ring-2 focus:ring-brandRed outline-none bg-white">
+                            <option value="Kg">Por Kilo (Kg)</option>
+                            <option value="Unid">Por Unidad</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold text-gray-700 mb-1">Precio x Kilo / Unid ($):</label>
+                        <input type="number" id="editProductPrice" required min="0" class="w-full border rounded p-2 focus:ring-2 focus:ring-brandRed outline-none">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-gray-700 mb-1">Precio x Caja ($) <span class="font-normal text-gray-400">(Opcional)</span>:</label>
+                        <input type="number" id="editProductBoxPrice" min="0" placeholder="Ej: 22000" class="w-full border rounded p-2 focus:ring-2 focus:ring-brandRed outline-none">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-gray-700 mb-1">URL Fotografía del Producto:</label>
+                    <input type="text" id="editProductImage" required placeholder="https://..." class="w-full border rounded p-2 text-xs focus:ring-2 focus:ring-brandRed outline-none">
+                </div>
+
+                <div>
+                    <label class="block font-bold text-gray-700 mb-1">Estado de Stock:</label>
+                    <select id="editProductStock" class="w-full border rounded p-2 focus:ring-2 focus:ring-brandRed outline-none bg-white font-semibold">
+                        <option value="true" class="text-emerald-700">Disponible (Con Stock)</option>
+                        <option value="false" class="text-red-700">Agotado / No Disponible (Sin Stock)</option>
+                    </select>
+                </div>
+
+                <div class="flex justify-end gap-2 pt-4 border-t mt-4">
+                    <button type="button" onclick="closeProductEditModal()" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg font-semibold hover:bg-gray-300">Cancelar</button>
+                    <button type="submit" class="px-4 py-2 bg-brandRed text-white rounded-lg font-semibold hover:bg-brandRedDark shadow">Guardar Cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- JAVASCRIPT LOGIC -->
     <script>
-        const app = {
-            currentStep: 1,
-            basePriceCLP: 1000,
-            exchangeRates: {},
-            currentAmountUSD: "1.05",
-            paypalRendered: false,
+        // Default initial products list
+        const defaultProducts = [
+            // Carniceria
+            { id: 1, name: "Chuleta de Cerdo Fresca", category: "carnes", price: 4790, boxPrice: 22500, unit: "Kg", inStock: true,
+             image: "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=600&q=80" },
+            { id: 2, name: "Chuleta Centro de Cerdo", category: "carnes", price: 4690, boxPrice: 22000, unit: "Kg", inStock: true,
+             image: "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=600&q=80" },
+            { id: 3, name: "Filete de Cerdo", category: "carnes", price: 3800, boxPrice: 18000, unit: "Kg", inStock: true,
+             image: "https://images.unsplash.com/photo-1603048588665-791ca8aea617?auto=format&fit=crop&w=600&q=80" },
+            { id: 4, name: "Pulpa de Cerdo", category: "carnes", price: 2500, boxPrice: 12000, unit: "Kg", inStock: true,
+             image: "https://images.unsplash.com/photo-1603048588665-791ca8aea617?auto=format&fit=crop&w=600&q=80" },
+            { id: 5, name: "Costillar de Cerdo Crudo", category: "carnes", price: 5990, boxPrice: 28000, unit: "Kg", inStock: true, 
+            image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80" },
+            { id: 6, name: "Patita de Cerdo", category: "carnes", price: 2000, boxPrice: 9500, unit: "Kg", inStock: false,
+             image: "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=600&q=80" },
+            { id: 7, name: "Pierna de Pollo Fresca", category: "carnes", price: 2590, boxPrice: 12000, unit: "Kg", inStock: true,
+             image: "https://images.unsplash.com/photo-1587593810167-a84920ea0781?auto=format&fit=crop&w=600&q=80" },
+            { id: 8, name: "Hueso de Vacuno / Cazuela", category: "carnes", price: 2000, boxPrice: 9000, unit: "Kg", inStock: true,
+             image: "https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=600&q=80" },
 
-            translations: {
-                es: {
-                    heroMsg: "✨ Descubre una colección exclusiva de belleza, elegancia y estilo. Déjate sorprender por fotografías que inspiran y cautivan. ¡Tu próxima colección favorita te espera!",
-                    next: "Siguiente",
-                    payTitle: "Acceso Restringido",
-                    payMsg: "Si quieres seguir viendo la página tienes que pagar 1.000 CLP (o su equivalente en tu moneda local).",
-                    securityMsg: "🔒 Pago único y seguro: El cobro se realiza una sola vez (sin suscripciones ni cobros automáticos). Tus datos bancarios no quedan guardados ni registrados en ningún lado, dar click en el boton de dice Tarjeta credito o de.",
-                    labelCountry: "Selecciona tu país / Región:",
-                    shareTitle: "¡Pago Confirmado! 🎉",
-                    shareMsg: "Después de confirmar el pago, comparte y dale like para continuar.",
-                    galleryBtn: "Siguiente a la Galería",
-                    galleryTitle: "Galería Exclusiva",
-                    gallerySub: "Disfruta de la colección de fotos de las mujeres más hermosas."
-                },
-                en: {
-                    heroMsg: "✨ Click next to discover the collection of the most beautiful women in the world. A unique, elegant, and fascinating selection you won't want to miss. Click to continue!",
-                    next: "Next",
-                    payTitle: "Restricted Access",
-                    payMsg: "If you want to keep viewing the page, you have to pay 1,000 pesos (or equivalent in your currency).",
-                    securityMsg: "🔒 Secure & One-time payment: Charged only once (no subscriptions or automatic fees). Your bank details are never stored or saved anywhere.",
-                    labelCountry: "Select your country / Region:",
-                    shareTitle: "Payment Confirmed! 🎉",
-                    shareMsg: "After confirming payment, share and like to continue.",
-                    galleryBtn: "Next to Gallery",
-                    galleryTitle: "Exclusive Gallery",
-                    gallerySub: "Enjoy the collection of photos of the world's most beautiful women."
-                },
-                fr: {
-                    heroMsg: "✨ En cliquant sur suivant, vous découvrirez la collection des plus belles femmes du monde. Une sélection unique, élégante et fascinante. Cliquez pour continuer!",
-                    next: "Suivant",
-                    payTitle: "Accès Restreint",
-                    payMsg: "Si vous souhaitez continuer, vous devez payer 1 000 pesos (ou l'équivalent dans votre monnaie locale).",
-                    securityMsg: "🔒 Paiement unique et sécurisé : Facturé une seule fois (pas d'abonnement). Vos coordonnées bancaires ne sont jamais enregistrées.",
-                    labelCountry: "Sélectionnez votre pays / Région:",
-                    shareTitle: "Paiement Confirmé! 🎉",
-                    shareMsg: "Après confirmation, partagez et aimez pour continuer.",
-                    galleryBtn: "Suivant vers la galerie",
-                    galleryTitle: "Galerie Exclusive",
-                    gallerySub: "Profitez de la collection de photos des plus belles femmes."
-                },
-                pt: {
-                    heroMsg: "✨ Ao clicar em próximo, você descobrirá a coleção de fotos das mulheres mais bonitas do mundo. Uma seleção única, elegante e fascinante que você não vai querer perder. Clique para continuar!",
-                    next: "Próximo",
-                    payTitle: "Acesso Restrito",
-                    payMsg: "Se você quiser continuar vendo a página, deve pagar 1.000 pesos (ou equivalente na sua moeda).",
-                    securityMsg: "🔒 Pagamento único e seguro: Cobrado apenas uma vez (sem assinaturas). Os dados do seu cartão nunca são salvos ou armazenados.",
-                    labelCountry: "Selecione seu país / Região:",
-                    shareTitle: "Pagamento Confirmado! 🎉",
-                    shareMsg: "Após confirmar o pagamento, compartilhe e curta para continuar.",
-                    galleryBtn: "Próximo à Galeria",
-                    galleryTitle: "Galeria Exclusiva",
-                    gallerySub: "Aproveite a coleção de fotos das mulheres mais bonitas."
-                }
-            },
+            // Cecinas
+            { id: 9, name: "Vienesas Seleccionadas x 1kg", category: "cecinas", price: 3200, boxPrice: null, unit: "Unid", inStock: true,
+             image: "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=600&q=80" },
+            { id: 10, name: "Queso Laminado Mantecoso 250g", category: "cecinas", price: 2800, boxPrice: null, unit: "Unid", inStock: true,
+             image: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?auto=format&fit=crop&w=600&q=80" },
+            { id: 11, name: "Jamón Sándwich Ariceta 200g", category: "cecinas", price: 1990, boxPrice: null, unit: "Unid", inStock: true,
+             image: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=600&q=80" },
 
-            async init() {
-                await this.fetchExchangeRates();
-                await this.detectUserLocation();
-            },
+            // Confites y Pan
+            { id: 12, name: "Pan Marraqueta / Hallulla", category: "confites", price: 1890, boxPrice: null, unit: "Kg", inStock: true,
+             image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&q=80" },
+            { id: 13, name: "Bolsa de Dulces Surtidos", category: "confites", price: 1500, boxPrice: null, unit: "Unid", inStock: false,
+             image: "https://images.unsplash.com/photo-1582058091505-f87a2e55a40f?auto=format&fit=crop&w=600&q=80" },
 
-            async fetchExchangeRates() {
+            // Bebidas y Lacteos
+            { id: 14, name: "Bebida Coca-Cola 2.5L", category: "bebidas", price: 2600, boxPrice: null, unit: "Unid", inStock: true,
+             image: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=600&q=80" },
+            { id: 15, name: "Leche Entera 1L", category: "bebidas", price: 1100, boxPrice: null, unit: "Unid", inStock: true,
+             image: "https://www.dipy.cl/cdn/shop/products/cl_495711.jpg?v=1661832682" },
+
+            // Articulos Aseo
+            { id: 16, name: "Detergente Multiuso 3L", category: "aseo", price: 4990, boxPrice: null, unit: "Unid", inStock: true,
+             image: "https://images.unsplash.com/photo-1585842378054-ee2e52f94ba2?auto=format&fit=crop&w=600&q=80" }
+        ];
+
+        // Categories Map
+        const categories = [
+            { id: "all", name: "Todos los Productos", icon: "fa-border-all" },
+            { id: "carnes", name: "Carnicería", icon: "fa-drumstick-bite" },
+            { id: "cecinas", name: "Cecinas & Quesos", icon: "fa-cheese" },
+            { id: "confites", name: "Pan & Confites", icon: "fa-bread-slice" },
+            { id: "bebidas", name: "Bebidas & Lácteos", icon: "fa-bottle-water" },
+            { id: "aseo", name: "Art. de Aseo", icon: "fa-pump-soap" }
+        ];
+
+        // Application State
+        let products = [];
+        let cart = [];
+        let activeCategory = "all";
+        const whatsappNumber = "+56959501124";
+
+        // Fallback placeholder image handler
+        function handleImgError(img) {
+            img.onerror = null;
+            img.src = 'https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=600&q=80';
+        }
+
+        // Initialize App
+        document.addEventListener("DOMContentLoaded", () => {
+            loadProducts();
+            renderCategories();
+            renderProducts();
+            updateCartCount();
+        });
+
+        // Load Products from LocalStorage or Default
+        function loadProducts() {
+            const saved = localStorage.getItem("bendicion_products_v2");
+            if (saved) {
                 try {
-                    const res = await fetch('https://open.er-api.com/v6/latest/CLP');
-                    const data = await res.json();
-                    if (data && data.rates) this.exchangeRates = data.rates;
-                } catch (e) {
-                    console.log("Error consultando tasas de cambio", e);
+                    products = JSON.parse(saved);
+                } catch(e) {
+                    products = [...defaultProducts];
                 }
-            },
-
-            async detectUserLocation() {
-                try {
-                    const res = await fetch('https://ipapi.co/json/');
-                    const data = await res.json();
-                    if (data && data.country_code) {
-                        const select = document.getElementById('country-select');
-                        const optionExists = Array.from(select.options).some(opt => opt.value === data.country_code);
-                        if (optionExists) select.value = data.country_code;
-                    }
-                } catch (e) {
-                    console.log("Ubicación por defecto", e);
-                }
-                this.updateUI();
-            },
-
-            onCountryChange() { 
-                this.updateUI(); 
-            },
-
-            updateUI() {
-                const select = document.getElementById('country-select');
-                if (!select || select.selectedIndex === -1) return;
-                const selectedOption = select.options[select.selectedIndex];
-                const currency = selectedOption.getAttribute('data-currency');
-                const lang = selectedOption.getAttribute('data-lang') || 'es';
-
-                if (this.exchangeRates['USD']) {
-                    this.currentAmountUSD = (this.basePriceCLP * this.exchangeRates['USD']).toFixed(2);
-                }
-
-                let priceText = "1.000 CLP";
-                if (currency === 'CLP') {
-                    priceText = "1.000 CLP";
-                } else if (this.exchangeRates[currency]) {
-                    const converted = (this.basePriceCLP * this.exchangeRates[currency]).toFixed(2);
-                    priceText = `${converted} ${currency}`;
-                }
-
-                const priceOutput = document.getElementById('price-output');
-                if (priceOutput) priceOutput.innerText = priceText;
-
-                const t = this.translations[lang] || this.translations['es'];
-                
-                const setText = (id, text) => {
-                    const el = document.getElementById(id);
-                    if (el) el.innerText = text;
-                };
-
-                const setHTML = (id, html) => {
-                    const el = document.getElementById(id);
-                    if (el) el.innerHTML = html;
-                };
-
-                setText('txt-hero-msg', t.heroMsg);
-                setText('txt-pay-title', t.payTitle);
-                setText('txt-pay-msg', t.payMsg);
-                
-                // Actualiza el texto de seguridad con formato en negritas según el idioma
-                if (lang === 'en') {
-                    setHTML('txt-security-msg', "🔒 <strong>Secure & One-time payment:</strong> Charged <strong>only once</strong> (no subscriptions). <strong>Your bank details are never stored</strong> or saved anywhere.");
-                } else if (lang === 'fr') {
-                    setHTML('txt-security-msg', "🔒 <strong>Paiement unique et sécurisé :</strong> Facturé <strong>une seule fois</strong> (pas d'abonnement). <strong>Vos coordonnées bancaires ne sont jamais enregistrées</strong>.");
-                } else if (lang === 'pt') {
-                    setHTML('txt-security-msg', "🔒 <strong>Pagamento único e seguro:</strong> Cobrado <strong>apenas uma vez</strong> (sem assinaturas). <strong>Os dados do seu cartão nunca são salvos</strong>.");
-                } else {
-                    setHTML('txt-security-msg', "🔒 <strong>Pago único y seguro:</strong> El cobro se realiza <strong>una sola vez</strong> (sin suscripciones ni cobros automáticos). <strong>Tus datos bancarios no quedan guardados</strong> ni registrados en ningún lado.");
-                }
-
-                setText('txt-label-country', t.labelCountry);
-                setText('txt-share-title', t.shareTitle);
-                setText('txt-share-msg', t.shareMsg);
-                setText('txt-gallery-title', t.galleryTitle);
-                setText('txt-gallery-sub', t.gallerySub);
-            },
-
-            nextStep() {
-                if (this.currentStep < 4) {
-                    this.currentStep++;
-                    this.renderStep();
-                }
-            },
-
-            renderStep() {
-                document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
-                const target = document.getElementById(`step-${this.currentStep}`);
-                if (target) target.classList.add('active');
-
-                if (this.currentStep === 2 && !this.paypalRendered) {
-                    this.renderPayPalButtons();
-                    this.paypalRendered = true;
-                }
-            },
-
-            renderPayPalButtons() {
-                if (typeof paypal === 'undefined') {
-                    console.warn("El SDK de PayPal no cargó correctamente (posible restricción file://). Utiliza el botón de respaldo.");
-                    return;
-                }
-                
-                const container = document.getElementById('paypal-button-container');
-                if(container) container.innerHTML = '';
-
-                paypal.Buttons({
-                    style: {
-                        layout: 'vertical',
-                        color:  'gold',
-                        shape:  'rect',
-                        label:  'paypal'
-                    },
-                    createOrder: (data, actions) => {
-                        return actions.order.create({
-                            purchase_units: [{
-                                amount: {
-                                    value: app.currentAmountUSD
-                                },
-                                description: "Acceso a Galería Exclusiva"
-                            }]
-                        });
-                    },
-                    onApprove: (data, actions) => {
-                        return actions.order.capture().then((details) => {
-                            app.nextStep();
-                        });
-                    },
-                    onError: (err) => {
-                        console.error("Error en PayPal:", err);
-                    }
-                }).render('#paypal-button-container');
-            },
-
-            simulatePayment() {
-                alert("Simulando proceso de pago exitoso con PayPal / Tarjeta...");
-                this.nextStep();
-            },
-
-            share(platform) {
-                const url = encodeURIComponent(window.location.href);
-                const text = encodeURIComponent("¡Mira esta increíble galería exclusiva!");
-                if (platform === 'wa') window.open(`https://api.whatsapp.com/send?text=${text}%20${url}`, '_blank');
-                else if (platform === 'fb') window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+            } else {
+                products = [...defaultProducts];
+                saveProductsToStorage();
             }
-        };
+        }
 
-        window.onload = () => app.init();
+        function saveProductsToStorage() {
+            localStorage.setItem("bendicion_products_v2", JSON.stringify(products));
+        }
+
+        function resetDefaultProducts() {
+            if (confirm("¿Estás seguro de restablecer todos los productos y precios por defecto?")) {
+                products = [...defaultProducts];
+                saveProductsToStorage();
+                renderProducts();
+                renderAdminTable();
+                alert("Catálogo restablecido correctamente.");
+            }
+        }
+
+        // Render Category Filter Buttons
+        function renderCategories() {
+            const container = document.getElementById("categoryFilters");
+            container.innerHTML = categories.map(cat => `
+                <button onclick="setCategory('${cat.id}')" 
+                    class="px-4 py-2 rounded-full font-bold text-xs md:text-sm whitespace-nowrap transition flex items-center gap-2 ${
+                        activeCategory === cat.id 
+                        ? 'bg-brandRed text-white shadow-md' 
+                        : 'bg-white text-gray-700 hover:bg-gray-200 border border-gray-200'
+                    }">
+                    <i class="fa-solid ${cat.icon}"></i>
+                    <span>${cat.name}</span>
+                </button>
+            `).join("");
+        }
+
+        function setCategory(catId) {
+            activeCategory = catId;
+            renderCategories();
+            renderProducts();
+        }
+
+        // Render Products Grid
+        function renderProducts() {
+            const grid = document.getElementById("productsGrid");
+            const filtered = activeCategory === "all" 
+                ? products 
+                : products.filter(p => p.category === activeCategory);
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-12 text-gray-500">
+                        <i class="fa-solid fa-box-open text-4xl mb-2 text-gray-300"></i>
+                        <p>No se encontraron productos en esta categoría.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(product => {
+                const isAvailable = product.inStock;
+                
+                return `
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col justify-between product-card relative ${!isAvailable ? 'opacity-70 bg-gray-50' : ''}">
+                        
+                        <!-- Image & Stock Tag -->
+                        <div class="relative h-48 bg-gray-100 overflow-hidden">
+                            <img src="${product.image}" alt="${product.name}" onerror="handleImgError(this)" class="w-full h-full object-cover">
+                            
+                            ${!isAvailable ? `
+                                <div class="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center p-2">
+                                    <span class="bg-brandRed text-white text-xs font-black px-3 py-1.5 rounded-md uppercase tracking-wider shadow border border-white">
+                                        <i class="fa-solid fa-ban mr-1"></i> Agotado / No Disponible
+                                    </span>
+                                </div>
+                            ` : ''}
+
+                            <span class="absolute top-2 left-2 bg-brandBlack bg-opacity-80 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">
+                                ${product.category}
+                            </span>
+                        </div>
+
+                        <!-- Info -->
+                        <div class="p-4 flex-grow flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-bold text-gray-900 text-base leading-snug mb-1">${product.name}</h3>
+                                <div class="text-xs text-gray-500 mb-2 font-medium">Formato: Por ${product.unit === 'Kg' ? 'Kilo (Kg)' : 'Unidad'}</div>
+                            </div>
+
+                            <div class="mt-2 pt-2 border-t border-gray-100">
+                                <div class="flex items-baseline justify-between">
+                                    <span class="text-xs text-gray-500 font-semibold">Precio:</span>
+                                    <span class="text-lg font-black text-brandRed">$${product.price.toLocaleString('es-CL')} <span class="text-xs font-normal text-gray-500">/${product.unit}</span></span>
+                                </div>
+
+                                ${product.boxPrice ? `
+                                    <div class="flex items-baseline justify-between mt-0.5 text-xs text-amber-800 bg-amber-50 px-2 py-1 rounded">
+                                        <span class="font-bold">Opción Caja:</span>
+                                        <span class="font-bold">$${product.boxPrice.toLocaleString('es-CL')}</span>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+
+                        <!-- Action Button -->
+                        <div class="p-4 pt-0">
+                            ${isAvailable ? `
+                                <div class="grid ${product.boxPrice ? 'grid-cols-2' : 'grid-cols-1'} gap-2">
+                                    <button onclick="addToCart(${product.id}, 'kilo')" class="w-full bg-brandRed hover:bg-brandRedDark text-white py-2 px-2 rounded-lg font-bold text-xs shadow flex items-center justify-center gap-1 transition">
+                                        <i class="fa-solid fa-plus"></i> +1 ${product.unit}
+                                    </button>
+                                    ${product.boxPrice ? `
+                                        <button onclick="addToCart(${product.id}, 'caja')" class="w-full bg-amber-600 hover:bg-amber-700 text-white py-2 px-2 rounded-lg font-bold text-xs shadow flex items-center justify-center gap-1 transition">
+                                            <i class="fa-solid fa-box"></i> +1 Caja
+                                        </button>
+                                    ` : ''}
+                                </div>
+                            ` : `
+                                <button disabled class="w-full bg-gray-300 text-gray-500 py-2 rounded-lg font-bold text-xs cursor-not-allowed uppercase">
+                                    No Disponible
+                                </button>
+                            `}
+                        </div>
+
+                    </div>
+                `;
+            }).join("");
+        }
+
+        // Cart Logic
+        function addToCart(productId, type = 'kilo') {
+            const product = products.find(p => p.id === productId);
+            if (!product || !product.inStock) return;
+
+            const cartKey = `${productId}_${type}`;
+            const existingIndex = cart.findIndex(item => item.cartKey === cartKey);
+
+            const isBox = type === 'caja';
+            const price = isBox ? product.boxPrice : product.price;
+            const label = isBox ? `${product.name} (Caja)` : `${product.name} (${product.unit})`;
+
+            if (existingIndex > -1) {
+                cart[existingIndex].quantity += 1;
+            } else {
+                cart.push({
+                    cartKey: cartKey,
+                    id: product.id,
+                    name: label,
+                    price: price,
+                    quantity: 1,
+                    type: type
+                });
+            }
+
+            updateCartCount();
+            
+            // Temporary feedback Toast
+            const btn = event.currentTarget;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = `<i class="fa-solid fa-check"></i> ¡Agregado!`;
+            btn.classList.add('bg-emerald-600');
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.classList.remove('bg-emerald-600');
+            }, 1000);
+        }
+
+        function updateCartCount() {
+            const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById("cartCount").innerText = totalCount;
+        }
+
+        function openCartModal() {
+            renderCartItems();
+            document.getElementById("cartModal").classList.remove("hidden");
+        }
+
+        function closeCartModal() {
+            document.getElementById("cartModal").classList.add("hidden");
+        }
+
+        function renderCartItems() {
+            const container = document.getElementById("cartItemsContainer");
+            
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8 text-gray-400">
+                        <i class="fa-solid fa-basket-shopping text-4xl mb-2"></i>
+                        <p class="text-sm">Tu carrito de compras está vacío.</p>
+                    </div>
+                `;
+                document.getElementById("cartTotal").innerText = "$0";
+                return;
+            }
+
+            let total = 0;
+            container.innerHTML = cart.map((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+
+                return `
+                    <div class="py-3 flex justify-between items-center gap-2">
+                        <div class="flex-grow">
+                            <h4 class="font-bold text-gray-800 text-sm">${item.name}</h4>
+                            <div class="text-xs text-gray-500">$${item.price.toLocaleString('es-CL')} c/u</div>
+                        </div>
+
+                        <!-- Quantity Controls -->
+                        <div class="flex items-center space-x-2 border rounded-lg p-1 bg-gray-50">
+                            <button onclick="changeQty(${index}, -1)" class="w-6 h-6 rounded bg-gray-200 hover:bg-gray-300 font-bold text-xs flex items-center justify-center">-</button>
+                            <span class="text-xs font-bold w-6 text-center">${item.quantity}</span>
+                            <button onclick="changeQty(${index}, 1)" class="w-6 h-6 rounded bg-gray-200 hover:bg-gray-300 font-bold text-xs flex items-center justify-center">+</button>
+                        </div>
+
+                        <div class="text-right min-w-[70px]">
+                            <span class="font-bold text-sm text-gray-900">$${itemTotal.toLocaleString('es-CL')}</span>
+                        </div>
+
+                        <button onclick="removeItem(${index})" class="text-red-500 hover:text-red-700 text-sm p-1">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                `;
+            }).join("");
+
+            document.getElementById("cartTotal").innerText = `$${total.toLocaleString('es-CL')}`;
+        }
+
+        function changeQty(index, delta) {
+            cart[index].quantity += delta;
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+            updateCartCount();
+            renderCartItems();
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            updateCartCount();
+            renderCartItems();
+        }
+
+        // WhatsApp Order Generation
+        function sendWhatsAppOrder() {
+            if (cart.length === 0) {
+                alert("Por favor, agrega al menos un producto al pedido.");
+                return;
+            }
+
+            const name = document.getElementById("customerName").value.trim();
+            const address = document.getElementById("customerAddress").value.trim();
+            const notes = document.getElementById("customerNotes").value.trim();
+
+            if (!name) {
+                alert("Por favor ingresa tu nombre.");
+                document.getElementById("customerName").focus();
+                return;
+            }
+
+            let total = 0;
+            let text = `🛒 *NUEVO PEDIDO - BENDICION MINIMARKET Y CARNICERIA*\n\n`;
+            text += `👤 *Cliente:* ${name}\n`;
+            if (address) text += `📍 *Dirección/Entrega:* ${address}\n`;
+            if (notes) text += `📝 *Notas:* ${notes}\n`;
+            text += `-----------------------------------\n`;
+            text += `*DETALLE DEL PEDIDO:*\n\n`;
+
+            cart.forEach(item => {
+                const subtotal = item.price * item.quantity;
+                total += subtotal;
+                text += `• ${item.quantity}x ${item.name} - $${subtotal.toLocaleString('es-CL')}\n`;
+            });
+
+            text += `-----------------------------------\n`;
+            text += `💰 *TOTAL ESTIMADO:* $${total.toLocaleString('es-CL')}\n\n`;
+            text += `¡Quedo a la espera de la confirmación y detalles del pago!`;
+
+            const encodedText = encodeURIComponent(text);
+            const waUrl = `https://wa.me/56959501124?text=${encodedText}`;
+
+            window.open(waUrl, '_blank');
+        }
+
+        // ADMIN AUTH & MODAL FUNCTIONS
+        function toggleAdminModal() {
+            document.getElementById("adminAuthModal").classList.remove("hidden");
+            document.getElementById("adminPassword").value = "";
+            document.getElementById("adminAuthError").classList.add("hidden");
+        }
+
+        function closeAdminAuthModal() {
+            document.getElementById("adminAuthModal").classList.add("hidden");
+        }
+
+        function verifyAdminPass() {
+            const pass = document.getElementById("adminPassword").value;
+            if (pass === "1234") {
+                closeAdminAuthModal();
+                openAdminPanel();
+            } else {
+                document.getElementById("adminAuthError").classList.remove("hidden");
+            }
+        }
+
+        function openAdminPanel() {
+            renderAdminTable();
+            document.getElementById("adminPanelModal").classList.remove("hidden");
+        }
+
+        function closeAdminPanelModal() {
+            document.getElementById("adminPanelModal").classList.add("hidden");
+        }
+
+        function renderAdminTable() {
+            const tbody = document.getElementById("adminProductsTable");
+            
+            tbody.innerHTML = products.map(product => `
+                <tr class="hover:bg-gray-50 border-b">
+                    <td class="p-3 font-bold text-gray-800 flex items-center gap-2">
+                        <img src="${product.image}" onerror="handleImgError(this)" class="w-8 h-8 rounded object-cover border">
+                        <span>${product.name}</span>
+                    </td>
+                    <td class="p-3 uppercase text-[11px] font-semibold text-gray-500">${product.category}</td>
+                    <td class="p-3 font-bold text-brandRed">$${product.price.toLocaleString('es-CL')} <span class="text-[10px] text-gray-400">/${product.unit}</span></td>
+                    <td class="p-3 text-amber-800 font-semibold">${product.boxPrice ? '$' + product.boxPrice.toLocaleString('es-CL') : '-'}</td>
+                    <td class="p-3 text-center">
+                        <button onclick="toggleStock(${product.id})" class="px-2 py-1 rounded text-xs font-bold transition ${
+                            product.inStock 
+                            ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' 
+                            : 'bg-red-100 text-red-800 border border-red-300'
+                        }">
+                            ${product.inStock ? '<i class="fa-solid fa-check mr-1"></i> Disponible' : '<i class="fa-solid fa-xmark mr-1"></i> Sin Stock'}
+                        </button>
+                    </td>
+                    <td class="p-3 text-right space-x-1">
+                        <button onclick="openProductEditModal(${product.id})" class="bg-blue-600 hover:bg-blue-700 text-white p-1.5 rounded text-xs">
+                            <i class="fa-solid fa-pen"></i> Editar
+                        </button>
+                        <button onclick="deleteProduct(${product.id})" class="bg-red-600 hover:bg-red-700 text-white p-1.5 rounded text-xs">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join("");
+        }
+
+        function toggleStock(productId) {
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                product.inStock = !product.inStock;
+                saveProductsToStorage();
+                renderAdminTable();
+                renderProducts();
+            }
+        }
+
+        function deleteProduct(productId) {
+            if (confirm("¿Estás seguro de eliminar este producto del catálogo?")) {
+                products = products.filter(p => p.id !== productId);
+                saveProductsToStorage();
+                renderAdminTable();
+                renderProducts();
+            }
+        }
+
+        // EDIT / ADD PRODUCT FORM
+        function openProductEditModal(productId) {
+            const modal = document.getElementById("productEditModal");
+            const title = document.getElementById("editModalTitle");
+
+            if (productId) {
+                const product = products.find(p => p.id === productId);
+                title.innerText = "Editar Producto";
+                document.getElementById("editProductId").value = product.id;
+                document.getElementById("editProductName").value = product.name;
+                document.getElementById("editProductCategory").value = product.category;
+                document.getElementById("editProductUnit").value = product.unit;
+                document.getElementById("editProductPrice").value = product.price;
+                document.getElementById("editProductBoxPrice").value = product.boxPrice || "";
+                document.getElementById("editProductImage").value = product.image;
+                document.getElementById("editProductStock").value = product.inStock ? "true" : "false";
+            } else {
+                title.innerText = "Agregar Nuevo Producto";
+                document.getElementById("editProductId").value = "";
+                document.getElementById("productForm").reset();
+                document.getElementById("editProductStock").value = "true";
+                document.getElementById("editProductImage").value = "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=600&q=80";
+            }
+
+            modal.classList.remove("hidden");
+        }
+
+        function closeProductEditModal() {
+            document.getElementById("productEditModal").classList.add("hidden");
+        }
+
+        function saveProductForm(event) {
+            event.preventDefault();
+
+            const id = document.getElementById("editProductId").value;
+            const name = document.getElementById("editProductName").value.trim();
+            const category = document.getElementById("editProductCategory").value;
+            const unit = document.getElementById("editProductUnit").value;
+            const price = parseInt(document.getElementById("editProductPrice").value) || 0;
+            const boxPriceVal = document.getElementById("editProductBoxPrice").value;
+            const boxPrice = boxPriceVal ? parseInt(boxPriceVal) : null;
+            const image = document.getElementById("editProductImage").value.trim();
+            const inStock = document.getElementById("editProductStock").value === "true";
+
+            if (id) {
+                // Update existing
+                const index = products.findIndex(p => p.id === parseInt(id));
+                if (index > -1) {
+                    products[index] = { ...products[index], name, category, unit, price, boxPrice, image, inStock };
+                }
+            } else {
+                // Create new
+                const newId = Date.now();
+                products.push({ id: newId, name, category, unit, price, boxPrice, image, inStock });
+            }
+
+            saveProductsToStorage();
+            renderProducts();
+            renderAdminTable();
+            closeProductEditModal();
+        }
     </script>
 </body>
 </html>
